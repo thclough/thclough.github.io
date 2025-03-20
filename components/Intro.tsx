@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import portrait from "@/public/portrait.jpg";
 import { motion } from "framer-motion";
 import { Linden_Hill } from "next/font/google";
@@ -9,13 +9,29 @@ import Link from "next/link";
 import { BsArrowRight, BsLinkedin } from "react-icons/bs";
 import { HiDownload } from "react-icons/hi";
 import { FaGithubSquare } from "react-icons/fa";
-import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { useActiveSectionContext } from "@/context/ActiveSectionContext";
 
 export default function Intro() {
   const [infoText, setInfoText] = useState("");
 
+  const { setActiveSection } = useActiveSectionContext();
+  const { ref, inView } = useInView({
+    threshold: 0.75,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setActiveSection("Home");
+    }
+  }, [inView, setActiveSection]);
+
   return (
-    <section className="mb-28 max-w-[50rem] text-center sm:mb-0">
+    <section
+      ref={ref}
+      id="home"
+      className="mb-20 max-w-[50rem] text-center sm:mb-0 scroll-mt-100"
+    >
       <div className="flex items-center justify-center">
         <div>
           <motion.div
@@ -115,7 +131,7 @@ export default function Intro() {
         </div>
       </motion.div>
 
-      <div className="relative items-center justify-center mt-2">
+      <div className="relative h-8 sm:h-0 items-center justify-center mt-2">
         <p className="inline-block text-gray-700">{infoText}</p>
       </div>
     </section>
