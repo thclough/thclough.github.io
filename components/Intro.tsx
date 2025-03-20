@@ -115,7 +115,7 @@ export default function Intro() {
         </div>
       </motion.div>
 
-      <div className="relative items-center justify-center py-2">
+      <div className="relative items-center justify-center mt-2">
         <p className="inline-block text-gray-700">{infoText}</p>
       </div>
     </section>
