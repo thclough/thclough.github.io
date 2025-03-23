@@ -7,7 +7,7 @@ export default function Footer() {
         &copy; 2025 Tighe Clough. All rights reserved.
       </small>
       <p className="text-xs">
-        <span>About this website:</span> build with React & Next.js (App Router
+        <span>About this website:</span> built with React & Next.js (App Router
         & Server Actions), TypeScript, Tailwind CSS, Framer Motion, React Email
         & Resend - Vercel hosting.
       </p>
