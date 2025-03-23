@@ -3,8 +3,6 @@
 import React, { useEffect } from "react";
 import SectionHeading from "./SectionHeading";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useActiveSectionContext } from "@/context/ActiveSectionContext";
 import { useSectionInView } from "@/lib/hooks";
 
 export default function About() {
@@ -32,7 +30,8 @@ export default function About() {
         <span className="font-medium">
           machine learning, math, and full-stack development.
         </span>{" "}
-        I'm currently leveraging what I've learned to build valuable projects.
+        I&apos;m currently leveraging what I&apos;ve learned to build valuable
+        projects.
       </p>
       <p></p>
     </motion.section>
