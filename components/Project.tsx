@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import "@/app/styles.css";
 import { useScroll, useTransform } from "framer-motion";
 import { projectsData } from "@/lib/data";
 import { useRef } from "react";
@@ -33,8 +32,8 @@ export default function Project({
       }}
       className="group mb-3 sm:mb-8 last:mb-0"
     >
-      <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden group-odd:pr-40 sm:group-odd:pr-2 group-even:pl-45 sm:group-even:pl-8  sm:h-[20rem]  hover:bg-gray-200 transition relative">
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
+      <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden group-odd:pl-5 group-odd:pr-40 sm:group-odd:pr-2 group-even:pr-5 sm:h-[20rem] hover:bg-gray-200 transition relative">
+        <div className="flex flex-col h-full pt-4 pb-7 sm:pt-10 group-even:ml-[12rem] sm:group-even:ml-[21rem] sm:max-w-[50%]">
           <h3 className="text-2x font-semibold">{title}</h3>
           <p className="mt-2 leading-relaxed text-gray-700">{description}</p>
           <ul className="flex flex-wrap gap-2 mt-4 sm:mt-auto">

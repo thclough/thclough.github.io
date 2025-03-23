@@ -1,6 +1,6 @@
 import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
-import { FaReact } from "react-icons/fa";
+import { LuBrainCircuit } from "react-icons/lu";
 import { LuGraduationCap } from "react-icons/lu";
 import corpcommentImg from "@/public/corpcomment.png";
 import rmtdevImg from "@/public/rmtdev.png";
@@ -35,28 +35,28 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Graduated bootcamp",
-    location: "Miami, FL",
+    title: "Student Consultant",
+    location: "Cologne, Germany",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
-    icon: React.createElement(LuGraduationCap),
-    date: "2019",
-  },
-  {
-    title: "Front-End Developer",
-    location: "Orlando, FL",
-    description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
+      "First technical professional experience. I worked on Python development and developed the standard project structure for a large company's data applications",
     icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
+    date: "Summer 2023",
   },
   {
-    title: "Full-Stack Developer",
-    location: "Houston, TX",
+    title: "Graduated University",
+    location: "Boston, MA",
     description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
-    icon: React.createElement(FaReact),
-    date: "2021 - present",
+      "I graduated from my studies with a degree in International Business/Finance and minor in data science. I also led my team to win 2nd place in the university data competition for that semester.",
+    icon: React.createElement(LuGraduationCap),
+    date: "December 2023",
+  },
+  {
+    title: "Continuing Education",
+    location: "Remote",
+    description:
+      "I have taken a little more than a year to intensely study machine learning, math, and full-stack development. I am also taking care of some family matters.",
+    icon: React.createElement(LuBrainCircuit),
+    date: "2024 - present",
   },
 ] as const;
 
@@ -85,23 +85,20 @@ export const projectsData = [
 ] as const;
 
 export const skillsData = [
-  "HTML",
-  "CSS",
+  "Python",
+  "Tensorflow",
+  "Pytorch",
+  "LangChain",
   "JavaScript",
   "TypeScript",
   "React",
   "Next.js",
-  "Node.js",
-  "Git",
   "Tailwind",
-  "Prisma",
-  "MongoDB",
+  "Framer Motion",
   "Redux",
-  "GraphQL",
-  "Apollo",
+  "Node.js",
   "Express",
   "PostgreSQL",
-  "Python",
-  "Django",
-  "Framer Motion",
+  "Prisma",
+  "MongoDB",
 ] as const;
