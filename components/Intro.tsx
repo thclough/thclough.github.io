@@ -3,20 +3,46 @@
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import portrait from "@/public/portrait.jpg";
+// import welcomeAudio from "@/public/welcome.mp3";
 import { motion } from "framer-motion";
-import { Linden_Hill } from "next/font/google";
 import Link from "next/link";
 import { BsArrowRight, BsLinkedin } from "react-icons/bs";
+import { CiStop1 } from "react-icons/ci";
 import { HiDownload } from "react-icons/hi";
 import { FaGithubSquare } from "react-icons/fa";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/ActiveSectionContext";
+import { HiOutlineSpeakerWave } from "react-icons/hi2";
 
 export default function Intro() {
   const [infoText, setInfoText] = useState("");
 
   const ref = useSectionInView("Home");
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      handleAudioEnd();
+    } else {
+      audioRef.current
+        .play()
+        .catch((error) => console.error("Playback failed:", error));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleAudioEnd = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+    }
+  };
 
   return (
     <section
@@ -52,11 +78,24 @@ export default function Intro() {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <span className="font-bold">Hello, I&apos;m Tighe.</span> <br /> I enjoy
-        building <span className="italic">AI apps</span>. I specialize in{" "}
-        <span className="underline">ML</span> but also employ{" "}
-        <span className="underline">full-stack</span> to bring to life complete{" "}
-        <span className="italic">AI-powered user experiences</span>.
+        <div className="flex items-center justify-center">
+          <span className="font-bold">Hello, I&apos;m Tighe.</span>
+          <button
+            className="flex items-center justify-center bg-white text-[1.5rem] h-8 w-8 sm:h-10 sm:w-10  text-gray-700 dark:bg-white/10 dark:text-white/60  gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition borderBlack"
+            onClick={toggleAudio}
+          >
+            <audio ref={audioRef} src="/welcome.mp3" onEnded={handleAudioEnd} />
+            {isPlaying ? (
+              <CiStop1 className="text-[1rem] stroke-[.05rem] max-h-[60%] max-w-[60%]" />
+            ) : (
+              <HiOutlineSpeakerWave className="max-h-[60%] max-w-[60%]" />
+            )}
+          </button>
+        </div>
+        I enjoy building <span className="italic">AI apps</span>. I specialize
+        in <span className="underline">Machine Learning</span> but also employ{" "}
+        <span className="underline">full-stack</span> to bring{" "}
+        <span className="italic">AI-powered user experiences</span> to life.
       </motion.h1>
 
       <motion.div
