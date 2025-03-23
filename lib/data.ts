@@ -87,7 +87,7 @@ export const projectsData = [
 export const skillsData = [
   "Python",
   "Tensorflow",
-  "Pytorch",
+  "PyTorch",
   "LangChain",
   "JavaScript",
   "TypeScript",
