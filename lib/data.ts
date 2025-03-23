@@ -2,9 +2,8 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { LuBrainCircuit } from "react-icons/lu";
 import { LuGraduationCap } from "react-icons/lu";
-import corpcommentImg from "@/public/corpcomment.png";
-import rmtdevImg from "@/public/rmtdev.png";
-import langplayImg from "@/public/langplay.png";
+import portfolioImg from "@/public/portfoliowebsite.png";
+import ispytickersImg from "@/public/ispytickers.png";
 
 export const links = [
   {
@@ -62,25 +61,19 @@ export const experiencesData = [
 
 export const projectsData = [
   {
-    title: "CorpComment",
-    description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
-    imageUrl: corpcommentImg,
+    title: "Portfolio Website (you are here)",
+    description: "I learned Next.js through building this portfolio website.",
+    tags: ["React", "Next.js", "Typescript", "Tailwind", "Framer"],
+    imageUrl: portfolioImg,
+    href: "https://www.tigheclough.com",
   },
   {
-    title: "rmtDev",
+    title: "I Spy Tickers",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
-    imageUrl: rmtdevImg,
-  },
-  {
-    title: "Word Analytics",
-    description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: langplayImg,
+      "Scraped 30,000+ articled. Built a bidrectional LSTM with custom layers to identify where public companies are mentioned in text. Achieved F1 of .818.",
+    tags: ["Selenium", "Tensorflow/Keras", "Gensim"],
+    imageUrl: ispytickersImg,
+    href: "https://github.com/thclough/i-spy-tickers",
   },
 ] as const;
 
