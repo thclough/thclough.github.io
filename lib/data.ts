@@ -62,7 +62,8 @@ export const experiencesData = [
 export const projectsData = [
   {
     title: "Portfolio Website (you are here)",
-    description: "I learned Next.js through building this portfolio website.",
+    description:
+      "I learned Next.js, Tailwind, and Framer motion through building this portfolio website.",
     tags: ["React", "Next.js", "Typescript", "Tailwind", "Framer"],
     imageUrl: portfolioImg,
     href: "https://www.tigheclough.com",
