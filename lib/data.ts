@@ -37,7 +37,7 @@ export const experiencesData = [
     title: "Student Consultant",
     location: "Cologne, Germany",
     description:
-      "First technical professional experience. I worked on Python development and developed the standard project structure for a large company's data applications.",
+      "First technical professional experience. I worked on Python development and developed the standard data project structure for a large company",
     icon: React.createElement(CgWorkAlt),
     date: "Summer 2023",
   },
@@ -45,7 +45,7 @@ export const experiencesData = [
     title: "Graduated University",
     location: "Boston, MA",
     description:
-      "I graduated from my studies with a degree in International Business/Finance and minor in data science. I also led my team to win 2nd place in the university data competition in my final semester.",
+      "I graduated from my studies with a degree in International Business/Finance and minor in Data Science. I also led my team to win 2nd place in the university data competition in my final semester.",
     icon: React.createElement(LuGraduationCap),
     date: "December 2023",
   },
@@ -71,7 +71,7 @@ export const projectsData = [
   {
     title: "I Spy Tickers",
     description:
-      "Scraped 30,000+ articles. Built a bidrectional LSTM with custom layers to identify where public companies are mentioned in text. Achieved F1 of .818.",
+      "Scraped 30,000+ financial articles. Built a bidirectional LSTM with custom layers to identify where public companies are mentioned in text. Achieved F1 of .818.",
     tags: ["Selenium", "Tensorflow/Keras", "Gensim"],
     imageUrl: ispytickersImg,
     href: "https://github.com/thclough/i-spy-tickers",
