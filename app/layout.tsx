@@ -46,12 +46,12 @@ export default function RootLayout({
               {children}
               <Footer />
 
-              <div className="fixed bottom-5 right-5 flex flex-col gap-2 invisible sm:visible">
+              <div className="fixed bottom-5 right-5 flex flex-col gap-2 invisible smp:visible">
                 <ExpandTab className="" />
                 <ChatBtn className="" />
               </div>
 
-              <ThemeSwitch className="fixed bottom-5 left-5 invisible sm:visible" />
+              <ThemeSwitch className="fixed bottom-5 left-5 invisible smp:visible" />
 
               <ChatWindow />
             </ActiveSectionContextProvider>

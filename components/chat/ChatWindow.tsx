@@ -27,9 +27,9 @@ export default function ChatWindow() {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         {/* the controls */}
-        <ChatBtn className="absolute -top-[4rem] right-5 sm:hidden" />
-        <ThemeSwitch className="absolute -top-[4rem] left-5 sm:hidden" />
-        <ExpandTab className="absolute -top-[4rem] left-1/2 -translate-x-1/2 sm:invisible" />
+        <ChatBtn className="absolute -top-[4rem] right-5 smp:hidden" />
+        <ThemeSwitch className="absolute -top-[4rem] left-5 smp:hidden" />
+        <ExpandTab className="absolute -top-[4rem] left-1/2 -translate-x-1/2 smp:hidden" />
 
         <ChatDiv />
       </motion.div>
