@@ -16,7 +16,7 @@ export default function ChatBtn({ className }: ChatBtnProps) {
 
   return (
     <button
-      className={`${className} bg-white w-[3rem] h-[3rem] bg-opacity-80 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl rounded-full items-center justify-center flex  hover:scale-[1.15] active:scale-105 transition-all dark:bg-gray-950`}
+      className={`${className} w-[3rem] h-[3rem] bg-white bg-opacity-80 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl rounded-full items-center justify-center flex hover:scale-[1.15] active:scale-105 transition-all dark:bg-gray-950`}
       onClick={() => {
         setChatActive(!chatActive);
       }}

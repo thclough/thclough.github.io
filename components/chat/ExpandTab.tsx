@@ -16,7 +16,7 @@ export default function ExpandTab({ className }: ExpandTabProps) {
 
   const { messages } = useChat({ id: "1" });
 
-  // if no messages keep invisible
+  // if no messages keep display none
   return (
     <AnimatePresence>
       {

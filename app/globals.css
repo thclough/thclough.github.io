@@ -32,6 +32,12 @@ html.dark {
     group-even:-left-40;
 }
 
+@media (max-width: 750px) {
+  .hidden-content {
+    display: none;
+  }
+}
+
 @media (min-width: 640px) {
   .project-card {
     @apply absolute top-8 -right-40 w-[28.25rem]
