@@ -7,8 +7,10 @@ import Footer from "@/components/Footer";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import ThemeContextProvider from "@/context/ThemeContext";
 import ChatActiveContextProvider from "@/context/ChatActiveContext";
-import ChatBtn from "@/components/chat/ChatBtn";
 import ChatPopper from "@/components/chat/ChatPopper";
+import ChatWindow from "@/components/chat/ChatWindow";
+import ChatBtn from "@/components/chat/ChatBtn";
+import ExpandTab from "@/components/chat/ExpandTab";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,9 +46,14 @@ export default function RootLayout({
               {children}
               <Footer />
 
-              <ChatPopper />
-              <ChatBtn />
-              <ThemeSwitch />
+              <div className="fixed bottom-5 right-5 flex flex-col gap-2 invisible sm:visible">
+                <ExpandTab className="" />
+                <ChatBtn className="" />
+              </div>
+
+              <ThemeSwitch className="fixed bottom-5 left-5 invisible sm:visible" />
+
+              <ChatWindow />
             </ActiveSectionContextProvider>
           </ThemeContextProvider>
         </ChatActiveContextProvider>
