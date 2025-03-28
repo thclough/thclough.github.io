@@ -39,7 +39,7 @@ export default function ChatDiv() {
   // only first scroll will chat box show?
 
   return (
-    <div className="relative w-full h-full max-h-[calc(100vh-12rem)] flex flex-col items-end justify-end gap-2">
+    <div className="relative w-full h-full max-h-[calc(100vh-8rem)] flex flex-col items-end justify-end gap-2">
       <motion.div
         className="flex flex-col overflow-y-auto w-full gap-2"
         initial={{ height: "0", paddingTop: ".5rem" }}

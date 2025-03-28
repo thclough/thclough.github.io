@@ -3,8 +3,6 @@
 import React from "react";
 import { useChatContext } from "@/context/ChatActiveContext";
 import { IoMdClose } from "react-icons/io";
-import { cn } from "@/lib/utils";
-import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
 type ShowChatBtnProps = {
@@ -19,7 +17,7 @@ export default function ShowChatBtn({ className, children }: ShowChatBtnProps) {
     <AnimatePresence>
       {!chatActive && (
         <motion.button
-          className={`${className} bg-white/60 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl items-center justify-center flex dark:bg-gray-950`}
+          className={`${className} bg-white/60 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl items-center justify-center flex dark:bg-gray-950 hidden-content`}
           onClick={() => {
             setChatActive(true);
           }}
