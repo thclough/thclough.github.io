@@ -13,9 +13,3 @@ html.dark {
 .borderBlack {
   @apply border border-black/10;
 }
-
-@media (max-height: 200px) {
-  .hidden-content {
-    display: none;
-  }
-}

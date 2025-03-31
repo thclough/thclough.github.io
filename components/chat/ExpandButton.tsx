@@ -20,11 +20,11 @@ export default function ExpandButton({ className }: ExpandTabProps) {
   return (
     // only show expansion if chat active there are messages that you can expand to show
     <motion.button
-      className={`${className} text-2xl`}
+      className={`${className}`}
       onClick={() => setChatExpanded(!chatExpanded)}
       initial={{ visibility: "visible" }}
       animate={{ visibility: messages.length > 0 ? "visible" : "hidden" }}
-      transition={{ duration: 0.25 }} // Instant toggle
+      transition={{ duration: 0.25 }}
     >
       {chatExpanded ? <MdOutlineExpandMore /> : <MdOutlineExpandLess />}
     </motion.button>

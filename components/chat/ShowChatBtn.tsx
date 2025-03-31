@@ -17,7 +17,7 @@ export default function ShowChatBtn({ className, children }: ShowChatBtnProps) {
     <AnimatePresence>
       {!chatActive && (
         <motion.button
-          className={`${className} bg-white/60 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl items-center justify-center flex dark:bg-gray-950 hidden-content`}
+          className={`${className} bg-white/60 backdrop-blur-[0.5rem] border border-white/40 shadow-2xl items-center justify-center flex dark:bg-gray-950`}
           onClick={() => {
             setChatActive(true);
           }}

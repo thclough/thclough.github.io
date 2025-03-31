@@ -4,7 +4,7 @@ import { BsChatRight } from "react-icons/bs";
 
 export default function ShowChatBtnLarge() {
   return (
-    <ShowChatBtn className="fixed bottom-5 right-5 px-3 h-[3rem] rounded-lg invisible smp:visible">
+    <ShowChatBtn className="fixed bottom-5 right-5 px-3 h-[3rem] rounded-full invisible smp:visible">
       <p>
         Chat with <span className="font-bold"> /taɪɡ/</span>{" "}
         <BsChatRight className="inline-block" />
