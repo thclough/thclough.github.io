@@ -8,9 +8,16 @@ import { FormEvent } from "react";
 import ClearChatButton from "./ClearChatBtn";
 import ExpandButton from "./ExpandButton";
 import { IoMdClose } from "react-icons/io";
+import { useActiveSectionContext } from "@/context/ActiveSectionContext";
+import type { SectionName } from "@/lib/types";
+
+type ChatRequestOptions = {
+  body: { activeSection: SectionName };
+};
 
 export default function ChatDiv() {
   const { chatExpanded, setChatExpanded, setChatActive } = useChatContext();
+  const { activeSection } = useActiveSectionContext();
 
   // stop is not part of the shared context
   const { messages, input, handleInputChange, handleSubmit, status, stop } =
@@ -23,7 +30,14 @@ export default function ChatDiv() {
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(e);
+
+    const options: ChatRequestOptions = {
+      body: {
+        activeSection,
+      },
+    };
+
+    handleSubmit(e, options);
     setChatExpanded(true);
   };
 

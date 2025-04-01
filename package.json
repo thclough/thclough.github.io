@@ -6,14 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test-script": "ts-node --project scripts/tsconfig.json scripts/data-to-redis.ts"
   },
   "dependencies": {
     "@ai-sdk/groq": "^1.2.1",
     "@ai-sdk/react": "^1.2.1",
     "@react-email/components": "^0.0.7",
     "@react-email/tailwind": "^0.0.8",
-    "@types/node": "20.3.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "ai": "^4.2.5",
@@ -32,14 +32,19 @@
     "react-icons": "^4.10.1",
     "react-intersection-observer": "^9.5.2",
     "react-vertical-timeline-component": "^3.6.0",
-    "redis": "^4.7.0",
     "resend": "^0.16.0",
     "sanitize-html": "^2.15.0",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss": "3.3.2",
-    "typescript": "5.1.5"
+    "tailwindcss": "3.3.2"
   },
   "devDependencies": {
-    "@types/react-vertical-timeline-component": "^3.3.3"
+    "@types/node": "^22.13.14",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/react-vertical-timeline-component": "^3.3.3",
+    "dotenv": "^16.4.7",
+    "pdf-parse": "^1.1.1",
+    "redis": "^4.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }

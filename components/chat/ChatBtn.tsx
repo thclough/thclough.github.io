@@ -4,7 +4,7 @@ import React from "react";
 import { BsChatRight } from "react-icons/bs";
 import { useChatContext } from "@/context/ChatActiveContext";
 import { IoMdClose } from "react-icons/io";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import clsx from "clsx";
 
 type ChatBtnProps = {
