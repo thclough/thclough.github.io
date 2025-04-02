@@ -1,9 +1,10 @@
-// taig header only shows when there are no messages
-// put taig in the message section
+// have taig header only shows when there are no messages
+
 // if you activate the input, message box should come up (only id no messages and Tighe thing)
 
-// use effect document html
-// generate object if received from specific source\// take into account actove section
+// generate object if received from specific source\// take into account active section
+
+// ai
 
 // different chains for website and CV
 // Y/N is there data in this (CV/website) to help answer the question

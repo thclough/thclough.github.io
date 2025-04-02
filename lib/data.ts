@@ -72,7 +72,7 @@ export const projectsData = [
     title: "I Spy Tickers",
     description:
       "Scraped 30,000+ financial articles. Built a bidirectional LSTM with custom layers to identify where public companies are mentioned in text. Achieved F1 of .818.",
-    tags: ["Selenium", "Tensorflow/Keras", "Gensim"],
+    tags: ["Python", "Selenium", "Tensorflow/Keras"],
     imageUrl: ispytickersImg,
     href: "https://github.com/thclough/i-spy-tickers",
   },
