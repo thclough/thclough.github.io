@@ -2,7 +2,7 @@
 
 // if you activate the input, message box should come up (only id no messages and Tighe thing)
 
-// generate object if received from specific source\// take into account active section
+// generate object if received from specific source take into account active section
 
 // ai
 
@@ -13,3 +13,8 @@
 // concat sections ask which is the most important
 
 // system prompt at end for personality
+
+// LEARNT
+
+// describing the structure destroys everything
+use multiple steps with not too many parameters

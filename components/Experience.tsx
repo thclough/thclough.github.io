@@ -1,6 +1,6 @@
 "use client";
 
-import { experiencesData } from "@/lib/data";
+import { experiencesData } from "@/lib/clientData";
 import React, { useEffect } from "react";
 import "react-vertical-timeline-component/style.min.css";
 import {
