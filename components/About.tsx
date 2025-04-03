@@ -21,7 +21,7 @@ export default function About() {
       <p>
         While majoring in{" "}
         <span className="font-medium">International Business and Finance</span>,
-        I found I more of an affinity for my minor{" "}
+        I found more of an affinity for my minor{" "}
         <span className="font-medium">Data Science</span>. Believe it or not,
         wrangling spreadsheets and slide decks simply did not give me the same
         satisfaction as building out data projects and exploring math courses.

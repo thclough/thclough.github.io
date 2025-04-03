@@ -1,13 +1,12 @@
 import { createClient } from "redis";
 import { parse, HTMLElement } from "node-html-parser";
-import { redirect } from "next/dist/server/api-utils";
 
 const redis = createClient({
   url: process.env.REDIS_URL,
 });
 
 redis.connect().catch((err) => {
-  console.error("Redis connection failed:", err);
+  throw new Error(`Failed to connect to redis`);
 });
 
 function parseHtml(html: string) {
@@ -64,8 +63,7 @@ export async function getCvText() {
   const cvText = await redis.get("pdf:CV");
 
   if (!cvText) {
-    console.error("No cv text");
-    return "";
+    throw new Error(`Failed to fetch cv text`);
   }
 
   return cvText;
