@@ -20,7 +20,7 @@ export default function ChatDiv() {
   const { chatExpanded, setChatActive } = useChatContext();
 
   // stop is not part of the shared context
-  const { messages, status, stop } = useChat({
+  const { messages, status, stop, append } = useChat({
     id: "1",
   });
 
@@ -39,6 +39,12 @@ export default function ChatDiv() {
     );
   }
 
+  const suggestedQs = [
+    "What tech skills does Tighe have?",
+    "How can I collaborate with Tighe?",
+    "What has Tighe studied?",
+  ];
+
   return (
     <StickToBottom
       className="relative max-h-[calc(100vh-9.75rem)] w-full flex flex-col items-end justify-end"
@@ -54,21 +60,44 @@ export default function ChatDiv() {
           }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          {messages.map((message) => (
-            <div key={message.id} className="self-end">
-              <ChatMessage message={message}></ChatMessage>
+          {messages.length == 0 ? (
+            <div className="flex flex-col items-center justify-center w-full gap-2">
+              <div className="text-center">
+                Ask my assistant, /taɪɡ/, anything about my professional or
+                educational experiences...
+              </div>
+              <div className="flex flex-auto justify-center gap-2">
+                {suggestedQs.map((Q) => (
+                  <button
+                    key={Q}
+                    className="flex-1 px-[.2rem] py-[.2rem] rounded-lg borderBlack dark:border-white/40 text-sm"
+                    onClick={() => append({ role: "user", content: Q })}
+                  >
+                    {Q}
+                  </button>
+                ))}
+              </div>
             </div>
-          ))}
-
-          {(status === "submitted" || status === "streaming") && (
-            <div>
-              {status === "submitted" && (
-                <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black dark:border-white"></div>
+          ) : (
+            <>
+              {messages.map((message) => (
+                <div key={message.id} className="self-end">
+                  <ChatMessage message={message}></ChatMessage>
+                </div>
+              ))}
+              {(status === "submitted" || status === "streaming") && (
+                <div>
+                  {status === "submitted" && (
+                    <div className="flex justify-center">
+                      <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black dark:border-white"></div>
+                    </div>
+                  )}
+                  <button type="button" onClick={() => stop()}>
+                    Stop
+                  </button>
+                </div>
               )}
-              <button type="button" onClick={() => stop()}>
-                Stop
-              </button>
-            </div>
+            </>
           )}
         </motion.div>
       </StickToBottom.Content>

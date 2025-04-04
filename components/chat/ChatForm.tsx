@@ -34,7 +34,7 @@ export default function ChatForm() {
       className="flex gap-2 w-full items-center"
     >
       <input
-        className="px-2 h-[2rem] w-full rounded-lg border borderBlack focus:border-black focus:outline-none transition-all dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 dark:text-gray-950 dark:outline-none"
+        className="px-2 h-[2rem] w-full text-sm sm:text-base rounded-lg border borderBlack focus:border-black focus:outline-none transition-all dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 dark:text-gray-950 dark:outline-none"
         name="prompt"
         placeholder="Chat with /taɪɡ/, my digital assistant"
         value={input}
