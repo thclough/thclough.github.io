@@ -26,8 +26,8 @@ export default function ClearChatButton({
     <motion.button
       className={`${className} text-xl `}
       onClick={() => {
-        setMessages([]);
         stopFunction();
+        setMessages([]);
       }}
       initial={{ visibility: "visible" }}
       animate={{ visibility: messages.length > 0 ? "visible" : "hidden" }}

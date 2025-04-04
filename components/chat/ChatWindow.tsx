@@ -26,6 +26,9 @@ export default function ChatWindow() {
         animate={chatActive ? "visible" : "hidden"}
         transition={{ duration: 0.3, type: "spring", bounce: 0.25 }}
       >
+        <div className="flex w-full h-10 items-center justify-center font-bold">
+          /taɪɡ/
+        </div>
         <ChatDiv />
       </motion.div>
     </div>

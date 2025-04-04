@@ -10,6 +10,7 @@ import type { SectionName } from "@/lib/types";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import { HiDownload } from "react-icons/hi";
 import ChatForm from "./ChatForm";
+import ChatMessage from "./ChatMessage";
 
 type ChatRequestOptions = {
   body: { activeSection: SectionName };
@@ -40,12 +41,13 @@ export default function ChatDiv() {
 
   return (
     <StickToBottom
-      className="relative max-h-[calc(100vh-12rem)] w-full flex flex-col items-end justify-end"
+      className="relative max-h-[calc(100vh-9.75rem)] w-full flex flex-col items-end justify-end"
       resize="smooth"
       initial="smooth"
     >
       <StickToBottom.Content className="flex flex-col">
         <motion.div
+          className="prose flex flex-col gap-4"
           initial={{ height: "0" }}
           animate={{
             height: chatExpanded ? "auto" : 0,
@@ -53,15 +55,16 @@ export default function ChatDiv() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           {messages.map((message) => (
-            <div key={message.id}>
-              {message.role === "user" ? "User: " : "AI: "}
-              {message.content}
+            <div key={message.id} className="self-end">
+              <ChatMessage message={message}></ChatMessage>
             </div>
           ))}
 
           {(status === "submitted" || status === "streaming") && (
             <div>
-              {status === "submitted" && <span>loading</span>}
+              {status === "submitted" && (
+                <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black dark:border-white"></div>
+              )}
               <button type="button" onClick={() => stop()}>
                 Stop
               </button>
@@ -72,7 +75,7 @@ export default function ChatDiv() {
 
       <ScrollToBottom />
 
-      <div className="max-h-[calc(100vh-12rem)] w-full">
+      <div className="max-h-[calc(100vh-10rem)] w-full">
         {/* controls */}
         <div className="w-full flex items-center justify-between py-4 smp:py-2">
           <ClearChatButton stopFunction={stop} />
