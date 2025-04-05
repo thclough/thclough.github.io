@@ -5,9 +5,12 @@ const redis = createClient({
   url: process.env.REDIS_URL,
 });
 
-redis.connect().catch((err) => {
-  throw new Error(`Failed to connect to redis`);
-});
+redis
+  .connect()
+  .then(() => console.log("connected to redis"))
+  .catch((err) => {
+    throw new Error(`Failed to connect to redis`);
+  });
 
 function parseHtml(html: string) {
   const root = parse(html);
@@ -68,7 +71,3 @@ export async function getCvText() {
 
   return cvText;
 }
-
-process.on("SIGTERM", async () => {
-  await redis.disconnect();
-});

@@ -3,12 +3,17 @@
 import { useChatContext } from "@/context/ChatActiveContext";
 import { useChat } from "@ai-sdk/react";
 import { motion } from "framer-motion";
-import ClearChatButton from "./ClearChatBtn";
-import ExpandButton from "./ExpandButton";
+
 import { IoMdClose } from "react-icons/io";
 import type { SectionName } from "@/lib/types";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import { HiDownload } from "react-icons/hi";
+
+import { suggestedQs } from "@/lib/chatData";
+import { useState } from "react";
+
+import ClearChatButton from "./ClearChatBtn";
+import ExpandButton from "./ExpandButton";
 import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
 
@@ -39,12 +44,6 @@ export default function ChatDiv() {
     );
   }
 
-  const suggestedQs = [
-    "What tech skills does Tighe have?",
-    "How can I collaborate with Tighe?",
-    "What has Tighe studied?",
-  ];
-
   return (
     <StickToBottom
       className="relative max-h-[calc(100vh-9.75rem)] w-full flex flex-col items-end justify-end"
@@ -70,7 +69,7 @@ export default function ChatDiv() {
                 {suggestedQs.map((Q) => (
                   <button
                     key={Q}
-                    className="flex-1 px-[.2rem] py-[.2rem] rounded-lg borderBlack dark:border-white/40 text-sm"
+                    className="flex-1 px-[.2rem] py-[.2rem] rounded-lg borderBlack dark:border-white/40 text-sm hover:bg-gray-300/40 dark:hover:bg-gray-950/40"
                     onClick={() => append({ role: "user", content: Q })}
                   >
                     {Q}
@@ -119,7 +118,7 @@ export default function ChatDiv() {
           </button>
         </div>
 
-        <ChatForm />
+        <ChatForm stopFunction={stop} />
       </div>
     </StickToBottom>
     // </div>

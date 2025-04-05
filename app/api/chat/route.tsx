@@ -4,7 +4,10 @@ import { TEMPLATE } from "@/lib/chatData";
 import { generateText, generateObject } from "ai";
 import { getCvText, getHtmlContent } from "@/lib/utils/api-utils";
 import { links } from "@/lib/clientData";
-import { StringValidation, z } from "zod";
+import { z } from "zod";
+import { NextResponse } from "next/server";
+import { BsDot } from "react-icons/bs";
+import { abort } from "process";
 
 const htmlEvidenceSchema = z.object({
   canUseHtml: z.boolean(),
@@ -37,9 +40,11 @@ type cvEvidenceType = z.infer<typeof cvEvidenceSchema> | null;
 async function generateHtmlEvidence({
   model,
   messages,
+  abortSignal,
 }: {
   messages: UIMessage[];
   model: LanguageModelV1;
+  abortSignal: AbortSignal;
 }) {
   let htmlEvidenceObject: htmlEvidenceType;
   let sectionSourceObject: sectionSourceType;
@@ -49,6 +54,7 @@ async function generateHtmlEvidence({
   try {
     const { object } = await generateObject({
       model,
+      abortSignal,
       messages,
       schema: htmlEvidenceSchema,
       system: `You are the digital version of Tighe Clough named /taɪɡ/ on Tighe Clough's website answering visitor questions as a chatbot. 
@@ -80,6 +86,11 @@ async function generateHtmlEvidence({
     });
     htmlEvidenceObject = object;
   } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        throw error;
+      }
+    }
     htmlEvidenceObject = null;
   }
 
@@ -92,6 +103,7 @@ async function generateHtmlEvidence({
     try {
       const { object } = await generateObject({
         model,
+        abortSignal,
         messages,
         schema: sectionSourceSchema,
         system: `You are the digital version of Tighe Clough named /taɪɡ/ on Tighe Clough's website answering visitor questions as a chatbot. 
@@ -111,7 +123,12 @@ async function generateHtmlEvidence({
       information based on html to answer query: ${htmlEvidenceObject.infoToUse}`,
       });
       sectionSourceObject = object;
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        if (error.name === "AbortError") {
+          throw error;
+        }
+      }
       sectionSourceObject = null;
     }
   } else {
@@ -119,6 +136,53 @@ async function generateHtmlEvidence({
   }
 
   return { htmlEvidenceObject, sectionSourceObject };
+}
+
+async function generateCvEvidence({
+  model,
+  messages,
+  abortSignal,
+}: {
+  messages: UIMessage[];
+  model: LanguageModelV1;
+  abortSignal: AbortSignal;
+}) {
+  let cvEvidenceObject: cvEvidenceType;
+
+  try {
+    const cvText = await getCvText();
+
+    const { object } = await generateObject({
+      model,
+      abortSignal,
+      messages,
+      schema: cvEvidenceSchema,
+      system: `You are the digital version of Tighe Clough named /taɪɡ/ on Tighe Clough's website answering visitor questions as a chatbot. 
+    The chatbot UI is found on the website. Tighe Clough's CV is available for download on the website but not directly viewable.
+    Evaluate whether or not material from Tighe Clough's pdf CV text found below can be used to answer the most recent user query.
+
+    If you can use information from the below CV to answer the question WITHOUT INFERRING, state the information in infoToUse.
+    Do not provided information if it is not valuable or you are unsure.
+    
+    The CV text is separate from the website. The tigheclough.com link in the CV is just a link to his website.
+    The CV is not a website but a pdf file.
+
+    START OF PDF CV TO EVALUATE: 
+    ${cvText}
+    END OF PDF CV TO EVALUATE`,
+    });
+
+    cvEvidenceObject = object;
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        throw error;
+      }
+    }
+    cvEvidenceObject = null;
+  }
+
+  return cvEvidenceObject;
 }
 
 function createSystemAddition({
@@ -175,78 +239,148 @@ function createSystemAddition({
   return systemAddition;
 }
 
-async function generateCvEvidence({
-  model,
-  messages,
-}: {
-  messages: UIMessage[];
-  model: LanguageModelV1;
-}) {
-  let cvEvidenceObject: cvEvidenceType;
-
-  try {
-    const cvText = await getCvText();
-
-    const { object } = await generateObject({
-      model,
-      messages,
-      schema: cvEvidenceSchema,
-      system: `You are the digital version of Tighe Clough named /taɪɡ/ on Tighe Clough's website answering visitor questions as a chatbot. 
-    The chatbot UI is found on the website. Tighe Clough's CV is available for download on the website but not directly viewable.
-    Evaluate whether or not material from Tighe Clough's pdf CV text found below can be used to answer the most recent user query.
-
-    If you can use information from the below CV to answer the question WITHOUT INFERRING, state the information in infoToUse.
-    Do not provided information if it is not valuable or you are unsure.
-    
-    The CV text is separate from the website. The tigheclough.com link in the CV is just a link to his website.
-    The CV is not a website but a pdf file.
-
-    START OF PDF CV TO EVALUATE: 
-    ${cvText}
-    END OF PDF CV TO EVALUATE`,
-    });
-
-    cvEvidenceObject = object;
-  } catch (error) {
-    cvEvidenceObject = null;
-  }
-
-  return cvEvidenceObject;
+function createErrorStream(errorMessage: string, status = 500) {
+  const encoder = new TextEncoder(); // For encoding strings to bytes
+  return new Response(
+    new ReadableStream({
+      start(controller) {
+        const message = JSON.stringify({ error: errorMessage });
+        const data = `data: ${message}\n\n`;
+        controller.enqueue(encoder.encode(data)); // Encode to Uint8Array
+        controller.close();
+      },
+    }),
+    {
+      headers: { "Content-Type": "text/event-stream" },
+      status,
+    }
+  );
 }
 
-export async function POST(req: Request) {
-  const {
-    messages,
-    activeSection,
-  }: { messages: UIMessage[]; activeSection: string } = await req.json();
+const abortControllers = new Map();
+const earlyReqIds = new Map();
 
-  const initialModel = groq("llama-3.1-8b-instant");
+export async function POST(req: Request, res: Response) {
+  const body = await req.json();
 
-  // if you can't get either one, insert something in template
-  const cvEvidenceObject = await generateCvEvidence({
-    model: initialModel,
-    messages,
-  });
+  console.log("Receiving body", body);
+  console.log("current map", abortControllers);
 
-  const { htmlEvidenceObject, sectionSourceObject } =
-    await generateHtmlEvidence({
-      model: initialModel,
+  if (earlyReqIds.has(body.reqId)) {
+    earlyReqIds.get(body.reqId).saved();
+    return createErrorStream("Aborted on arrival");
+    // return NextResponse.json({ status: 500, message: "aborted on arrival" });
+  }
+
+  if (body.action === "start") {
+    const {
       messages,
+      activeSection,
+      reqId,
+    }: { messages: UIMessage[]; activeSection: string; reqId: string } = body;
+
+    const controller = new AbortController();
+    abortControllers.set(reqId, controller);
+    const signal = controller.signal;
+
+    // setTimeout(() => controller.abort(), 1000);
+    req.signal?.addEventListener("abort", () => {
+      console.log("aborting");
+      controller.abort();
     });
 
-  const systemString = createSystemAddition({
-    cvEvidenceObject,
-    htmlEvidenceObject,
-    sectionSourceObject,
-  });
+    // if you can't get either one, insert something in template
 
-  console.log(systemString);
+    try {
+      const initialModel = groq("llama-3.1-8b-instant");
 
-  const result = streamText({
-    model: groq("llama-3.1-8b-instant"),
-    system: TEMPLATE + "\n" + systemString,
-    messages,
-  });
+      const [cvEvidenceObject, htmlEvidence] = await Promise.all([
+        generateCvEvidence({
+          model: initialModel,
+          messages,
+          abortSignal: signal,
+        }),
+        generateHtmlEvidence({
+          model: initialModel,
+          messages,
+          abortSignal: signal,
+        }),
+      ]);
 
-  return result.toDataStreamResponse();
+      const { htmlEvidenceObject, sectionSourceObject } = htmlEvidence;
+
+      console.log(cvEvidenceObject);
+      console.log(htmlEvidenceObject);
+
+      const systemString = createSystemAddition({
+        cvEvidenceObject,
+        htmlEvidenceObject,
+        sectionSourceObject,
+      });
+
+      console.log(systemString);
+
+      const result = streamText({
+        model: initialModel,
+        system: TEMPLATE + "\n" + systemString,
+        abortSignal: signal,
+        messages,
+      });
+
+      return result.toDataStreamResponse();
+    } catch (error) {
+      return createErrorStream("Something went wrong on the server");
+      // if (error instanceof Error) {
+      //   if (error.name === "AbortError") {
+      //     return NextResponse.json({
+      //       error: "Aborted the server stuff",
+      //     });
+      //   }
+      // }
+      // console.log("Fatal error on this", error);
+      // return NextResponse.json({
+      //   error,
+      // });
+    }
+  }
+
+  if (body.action === "abort") {
+    const { reqId }: { reqId: string } = body;
+
+    if (abortControllers.has(reqId)) {
+      const controller = abortControllers.get(reqId);
+      controller.abort();
+      abortControllers.delete(reqId);
+      console.log("sending abort response");
+      return NextResponse.json({
+        coolcat: 200,
+        message: "aborted successfully",
+      });
+      // abort possibly made it before the message
+    } else {
+      const result = await new Promise((resolve) => {
+        // set a grace period for corresponding message to cancel to arrive
+        const earlyTimer = setTimeout(() => {
+          earlyReqIds.delete(reqId);
+          resolve({
+            status: 500,
+            message: "Early reqId did not match incoming message reqId",
+          });
+        }, 10000);
+
+        earlyReqIds.set(reqId, {
+          saved: () => {
+            clearTimeout(earlyTimer);
+            earlyReqIds.delete(reqId);
+            resolve({
+              status: 200,
+              message: "Early reqId aborted incoming message",
+            });
+          },
+        });
+      });
+
+      return NextResponse.json(result);
+    }
+  }
 }
