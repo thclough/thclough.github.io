@@ -18,7 +18,7 @@ const ChatActiveContext = createContext<ChatActiveContextType | null>(null);
 export default function ChatActiveContextProvider({
   children,
 }: ChatActiveProviderProps) {
-  const [chatActive, setChatActive] = useState<boolean>(true);
+  const [chatActive, setChatActive] = useState<boolean>(false);
   const [chatExpanded, setChatExpanded] = useState<boolean>(false);
 
   return (

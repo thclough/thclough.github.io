@@ -6,12 +6,6 @@
 
 // ai
 
-// different chains for website and CV
-// Y/N is there data in this (CV/website) to help answer the question
-// ask to link sections and data to answer the question
-
-// concat sections ask which is the most important
-
 // system prompt at end for personality
 
 when canceling requests
@@ -20,13 +14,10 @@ when canceling requests
 - why not use await and fetch to 'api/chat' with something in body?
 - there is a parameter mismatch
 
-Why are you stopping the message?
+- ways to get rid of 500s
+- make your own fetch
 
-- stopping because want to
 
-abort signal to the
-
-- upon successfully stopping that, tell client to cancel requests to server (using stop())
 
 // LEARNT
 
