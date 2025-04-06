@@ -244,9 +244,6 @@ const earlyReqIds = new Map();
 export async function POST(req: Request, res: Response) {
   const body = await req.json();
 
-  console.log("Receiving body", body);
-  console.log("current map", abortControllers);
-
   if (earlyReqIds.has(body.reqId)) {
     // clear the timeout and get rid of the req id
     earlyReqIds.get(body.reqId).saved();
@@ -268,17 +265,7 @@ export async function POST(req: Request, res: Response) {
     abortControllers.set(reqId, controller);
     const signal = controller.signal;
 
-    // setTimeout(() => controller.abort(), 1000);
-    req.signal?.addEventListener("abort", () => {
-      console.log("aborting");
-      controller.abort();
-    });
-
-    // if you can't get either one, insert something in template
-
     try {
-      throw Error("oh no");
-
       const initialModel = groq("llama-3.1-8b-instant");
 
       const [cvEvidenceObject, htmlEvidence] = await Promise.all([
@@ -296,8 +283,8 @@ export async function POST(req: Request, res: Response) {
 
       const { htmlEvidenceObject, sectionSourceObject } = htmlEvidence;
 
-      console.log(cvEvidenceObject);
-      console.log(htmlEvidenceObject);
+      // console.log(cvEvidenceObject);
+      // console.log(htmlEvidenceObject);
 
       const systemString = createSystemAddition({
         cvEvidenceObject,
@@ -305,7 +292,7 @@ export async function POST(req: Request, res: Response) {
         sectionSourceObject,
       });
 
-      console.log(systemString);
+      // console.log(systemString);
 
       const result = streamText({
         model: initialModel,
@@ -319,13 +306,15 @@ export async function POST(req: Request, res: Response) {
       if (error instanceof Error) {
         if (error.name === "AbortError") {
           return NextResponse.json(
-            { message: "aborted successfully", abortError: true },
+            {
+              message: "response, cancelled, aborted successfully",
+              abortError: true,
+            },
             { status: 500 }
           );
         }
         // log the error message here
       }
-      console.log("SENDING A GENERIC ERROR");
       return NextResponse.json(
         { message: "Something went wrong on the server", abortError: false },
         { status: 500 }
@@ -340,7 +329,6 @@ export async function POST(req: Request, res: Response) {
       const controller = abortControllers.get(reqId);
       controller.abort();
       abortControllers.delete(reqId);
-      console.log("sending abort response");
       return NextResponse.json(
         { message: "aborted successfully" },
         { status: 200 }

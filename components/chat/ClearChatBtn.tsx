@@ -10,12 +10,14 @@ import { useChat } from "@ai-sdk/react";
 
 type ExpandTabProps = {
   className?: string;
-  stopFunction: () => void;
+  abortFunction: () => Promise<void>;
+  status: string;
 };
 
 export default function ClearChatButton({
   className,
-  stopFunction,
+  abortFunction,
+  status,
 }: ExpandTabProps) {
   const { chatActive } = useChatContext();
 
@@ -26,8 +28,12 @@ export default function ClearChatButton({
     <motion.button
       className={`${className} text-xl `}
       onClick={() => {
-        stopFunction();
-        setMessages([]);
+        // try to abort current message if necessary
+        if (status === "submitted" || status === "streaming") {
+          abortFunction();
+        } else {
+          setMessages([]);
+        }
       }}
       initial={{ visibility: "visible" }}
       animate={{ visibility: messages.length > 0 ? "visible" : "hidden" }}

@@ -1,33 +1,90 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { useChatContext } from "@/context/ChatActiveContext";
-import { useChat } from "@ai-sdk/react";
-import { motion } from "framer-motion";
 
+import { useChat } from "@ai-sdk/react";
+import { ChatRequestOptions, UIMessage } from "ai";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
-import type { SectionName } from "@/lib/types";
-import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import { HiDownload } from "react-icons/hi";
 
+import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
+import { useActiveSectionContext } from "@/context/ActiveSectionContext";
+
 import { suggestedQs } from "@/lib/chatData";
-import { useState } from "react";
+import type { SectionName } from "@/lib/types";
 
 import ClearChatButton from "./ClearChatBtn";
 import ExpandButton from "./ExpandButton";
 import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
 
-type ChatRequestOptions = {
-  body: { activeSection: SectionName };
-};
-
 export default function ChatDiv() {
   const { chatExpanded, setChatActive } = useChatContext();
+  const { activeSection } = useActiveSectionContext();
+  const [chatErrorStatus, setChatErrorStatus] = useState(false);
 
   // stop is not part of the shared context
-  const { messages, status, stop, append } = useChat({
+  const {
+    messages,
+    setMessages,
+    status,
+    stop,
+    append,
+    handleSubmit,
+    handleInputChange,
+    input,
+  } = useChat({
     id: "1",
+    onResponse: (res) => {
+      setChatErrorStatus(false);
+    },
+    onError: (error) => {
+      const parsed = JSON.parse(error.message);
+      if (!parsed.abortError) {
+        toast.error(parsed.error);
+        setChatErrorStatus(true);
+      }
+    },
   });
+
+  const controllerReqId = useRef<string | null>(null);
+
+  const handleAbortDec = (keepMessages: UIMessage[]) => {
+    return async () => {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reqId: controllerReqId.current,
+          action: "abort",
+        }),
+      });
+      if (res.ok) {
+        setMessages(keepMessages);
+        stop();
+      } else {
+        toast.error("Could not cancel message");
+      }
+    };
+  };
+
+  // might add this to chat context
+  const getChatOptions = () => {
+    controllerReqId.current = Math.random().toString(36).substring(2);
+
+    const options: ChatRequestOptions = {
+      body: {
+        activeSection,
+        reqId: controllerReqId.current,
+        action: "start",
+      },
+    };
+
+    return options;
+  };
 
   function ScrollToBottom() {
     const { isAtBottom, scrollToBottom } = useStickToBottomContext();
@@ -52,7 +109,7 @@ export default function ChatDiv() {
     >
       <StickToBottom.Content className="flex flex-col">
         <motion.div
-          className="prose flex flex-col gap-4"
+          className="flex flex-col gap-4"
           initial={{ height: "0" }}
           animate={{
             height: chatExpanded ? "auto" : 0,
@@ -70,7 +127,9 @@ export default function ChatDiv() {
                   <button
                     key={Q}
                     className="flex-1 px-[.2rem] py-[.2rem] rounded-lg borderBlack dark:border-white/40 text-sm hover:bg-gray-300/40 dark:hover:bg-gray-950/40"
-                    onClick={() => append({ role: "user", content: Q })}
+                    onClick={() =>
+                      append({ role: "user", content: Q }, getChatOptions())
+                    }
                   >
                     {Q}
                   </button>
@@ -91,9 +150,6 @@ export default function ChatDiv() {
                       <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black dark:border-white"></div>
                     </div>
                   )}
-                  <button type="button" onClick={() => stop()}>
-                    Stop
-                  </button>
                 </div>
               )}
             </>
@@ -104,9 +160,8 @@ export default function ChatDiv() {
       <ScrollToBottom />
 
       <div className="max-h-[calc(100vh-10rem)] w-full">
-        {/* controls */}
         <div className="w-full flex items-center justify-between py-4 smp:py-2">
-          <ClearChatButton stopFunction={stop} />
+          <ClearChatButton abortFunction={handleAbortDec([])} status={status} />
           <ExpandButton className="text-2xl" />
           <button
             onClick={() => {
@@ -118,7 +173,14 @@ export default function ChatDiv() {
           </button>
         </div>
 
-        <ChatForm stopFunction={stop} />
+        <ChatForm
+          handleSubmit={handleSubmit}
+          handleAbort={handleAbortDec(messages.slice(0, -1))}
+          getChatOptions={getChatOptions}
+          handleInputChange={handleInputChange}
+          status={status}
+          input={input}
+        />
       </div>
     </StickToBottom>
     // </div>
