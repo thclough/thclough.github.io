@@ -1,16 +1,27 @@
 import { createClient } from "redis";
-import { parse, HTMLElement } from "node-html-parser";
+import { parse } from "node-html-parser";
+import { RedisClientType } from "@redis/client";
 
-const redis = createClient({
-  url: process.env.REDIS_URL,
-});
+let redis: RedisClientType | null = null;
 
-redis
-  .connect()
-  .then(() => console.log("connected to redis"))
-  .catch((err) => {
-    throw new Error(`Failed to connect to redis`);
-  });
+async function initRedis() {
+  if (!redis) {
+    redis = createClient({
+      url: process.env.REDIS_URL,
+      socket: {
+        reconnectStrategy: (retries) => Math.min(retries * 100, 3000),
+      },
+    });
+
+    redis.on("error", (err) => console.error("Redis Client Error", err));
+    await redis.connect().then(() => console.log("connected to redis"));
+  }
+  return redis;
+}
+
+async function getRedisClient() {
+  return await initRedis();
+}
 
 function parseHtml(html: string) {
   const root = parse(html);
@@ -29,6 +40,9 @@ function parseHtml(html: string) {
 export async function getHtmlContent(): Promise<string> {
   // get the html
   const redisKey = "html:root";
+
+  // get the client
+  const redis = await getRedisClient();
 
   // look in redis store, if no key for html, generate new html
   let htmlContent = await redis.get(redisKey);
@@ -63,6 +77,8 @@ export async function getHtmlContent(): Promise<string> {
 }
 
 export async function getCvText() {
+  const redis = await getRedisClient();
+
   const cvText = await redis.get("pdf:CV");
 
   if (!cvText) {

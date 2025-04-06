@@ -14,6 +14,20 @@
 
 // system prompt at end for personality
 
+when canceling requests
+
+- first send request to server to cancel its requests
+- why not use await and fetch to 'api/chat' with something in body?
+- there is a parameter mismatch
+
+Why are you stopping the message?
+
+- stopping because want to
+
+abort signal to the
+
+- upon successfully stopping that, tell client to cancel requests to server (using stop())
+
 // LEARNT
 
 // describing the structure destroys everything

@@ -2,7 +2,7 @@
 
 import { useChatContext } from "@/context/ChatActiveContext";
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
-import { IoMdRefresh } from "react-icons/io";
+import { CiTrash } from "react-icons/ci";
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -33,7 +33,7 @@ export default function ClearChatButton({
       animate={{ visibility: messages.length > 0 ? "visible" : "hidden" }}
       transition={{ duration: 0.25 }} // Instant toggle
     >
-      <IoMdRefresh />
+      <CiTrash className="stroke-[0.05rem]" />
     </motion.button>
   );
 }

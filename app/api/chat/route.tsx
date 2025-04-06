@@ -1,4 +1,4 @@
-import { LanguageModel, LanguageModelV1, streamText, UIMessage } from "ai";
+import { LanguageModelV1, streamText, UIMessage } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { TEMPLATE } from "@/lib/chatData";
 import { generateText, generateObject } from "ai";
@@ -6,8 +6,6 @@ import { getCvText, getHtmlContent } from "@/lib/utils/api-utils";
 import { links } from "@/lib/clientData";
 import { z } from "zod";
 import { NextResponse } from "next/server";
-import { BsDot } from "react-icons/bs";
-import { abort } from "process";
 
 const htmlEvidenceSchema = z.object({
   canUseHtml: z.boolean(),
@@ -179,6 +177,7 @@ async function generateCvEvidence({
         throw error;
       }
     }
+
     cvEvidenceObject = null;
   }
 
@@ -239,24 +238,6 @@ function createSystemAddition({
   return systemAddition;
 }
 
-function createErrorStream(errorMessage: string, status = 500) {
-  const encoder = new TextEncoder(); // For encoding strings to bytes
-  return new Response(
-    new ReadableStream({
-      start(controller) {
-        const message = JSON.stringify({ error: errorMessage });
-        const data = `data: ${message}\n\n`;
-        controller.enqueue(encoder.encode(data)); // Encode to Uint8Array
-        controller.close();
-      },
-    }),
-    {
-      headers: { "Content-Type": "text/event-stream" },
-      status,
-    }
-  );
-}
-
 const abortControllers = new Map();
 const earlyReqIds = new Map();
 
@@ -267,9 +248,13 @@ export async function POST(req: Request, res: Response) {
   console.log("current map", abortControllers);
 
   if (earlyReqIds.has(body.reqId)) {
+    // clear the timeout and get rid of the req id
     earlyReqIds.get(body.reqId).saved();
-    return createErrorStream("Aborted on arrival");
-    // return NextResponse.json({ status: 500, message: "aborted on arrival" });
+
+    return NextResponse.json(
+      { message: "Message aborted on arrival successfully", abortError: true },
+      { status: 500 }
+    );
   }
 
   if (body.action === "start") {
@@ -292,6 +277,8 @@ export async function POST(req: Request, res: Response) {
     // if you can't get either one, insert something in template
 
     try {
+      throw Error("oh no");
+
       const initialModel = groq("llama-3.1-8b-instant");
 
       const [cvEvidenceObject, htmlEvidence] = await Promise.all([
@@ -329,18 +316,20 @@ export async function POST(req: Request, res: Response) {
 
       return result.toDataStreamResponse();
     } catch (error) {
-      return createErrorStream("Something went wrong on the server");
-      // if (error instanceof Error) {
-      //   if (error.name === "AbortError") {
-      //     return NextResponse.json({
-      //       error: "Aborted the server stuff",
-      //     });
-      //   }
-      // }
-      // console.log("Fatal error on this", error);
-      // return NextResponse.json({
-      //   error,
-      // });
+      if (error instanceof Error) {
+        if (error.name === "AbortError") {
+          return NextResponse.json(
+            { message: "aborted successfully", abortError: true },
+            { status: 500 }
+          );
+        }
+        // log the error message here
+      }
+      console.log("SENDING A GENERIC ERROR");
+      return NextResponse.json(
+        { message: "Something went wrong on the server", abortError: false },
+        { status: 500 }
+      );
     }
   }
 
@@ -352,35 +341,39 @@ export async function POST(req: Request, res: Response) {
       controller.abort();
       abortControllers.delete(reqId);
       console.log("sending abort response");
-      return NextResponse.json({
-        coolcat: 200,
-        message: "aborted successfully",
-      });
+      return NextResponse.json(
+        { message: "aborted successfully" },
+        { status: 200 }
+      );
       // abort possibly made it before the message
     } else {
       const result = await new Promise((resolve) => {
         // set a grace period for corresponding message to cancel to arrive
         const earlyTimer = setTimeout(() => {
           earlyReqIds.delete(reqId);
-          resolve({
-            status: 500,
-            message: "Early reqId did not match incoming message reqId",
-          });
+          resolve(
+            NextResponse.json(
+              { message: "Early reqId did not match incoming message reqId" },
+              { status: 500 }
+            )
+          );
         }, 10000);
 
         earlyReqIds.set(reqId, {
           saved: () => {
             clearTimeout(earlyTimer);
             earlyReqIds.delete(reqId);
-            resolve({
-              status: 200,
-              message: "Early reqId aborted incoming message",
-            });
+            resolve(
+              NextResponse.json(
+                { message: "Early reqId aborted incoming message" },
+                { status: 200 }
+              )
+            );
           },
         });
       });
-
-      return NextResponse.json(result);
+      // just resolve to a next response
+      return result;
     }
   }
 }
