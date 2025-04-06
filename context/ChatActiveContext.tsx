@@ -19,7 +19,7 @@ export default function ChatActiveContextProvider({
   children,
 }: ChatActiveProviderProps) {
   const [chatActive, setChatActive] = useState<boolean>(false);
-  const [chatExpanded, setChatExpanded] = useState<boolean>(false);
+  const [chatExpanded, setChatExpanded] = useState<boolean>(true);
 
   return (
     <ChatActiveContext.Provider

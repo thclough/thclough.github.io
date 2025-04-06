@@ -41,7 +41,7 @@ export default function ChatFormArea({
   return (
     <textarea
       ref={textareaRef}
-      className="p-2 w-full overflow-y-auto max-h-[15rem] resize-none text-sm sm:text-base rounded-lg border borderBlack focus:border-black focus:outline-none transition-all dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 dark:text-gray-950 dark:outline-none"
+      className="p-2 w-full overflow-y-auto max-h-[15rem] resize-none rounded-lg border borderBlack focus:border-black focus:outline-none transition-all dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 dark:text-gray-950 dark:outline-none"
       // name="prompt"
       placeholder={`Chat with /taɪɡ/, my digital assistant`}
       value={input}

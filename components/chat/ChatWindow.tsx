@@ -20,7 +20,7 @@ export default function ChatWindow() {
       {/* <ThemeSwitch className="absolute -top-[4rem] left-5 smp:hidden" /> */}
       <ThemeSwitch className="fixed left-5 bottom-5" />
       <motion.div
-        className="fixed bottom-0 sm:px-6 px-2 pb-4 w-full left-1/2 -translate-x-1/2 z-3 bg-white/60 borderBlack shadow-xl backdrop-blur-[0.5rem] rounded-t-2xl dark:bg-gray-950/60 dark:border-white/40 sm:w-[min(100%,36rem)] sm:right-[5.5rem] overflow-hidden"
+        className="fixed bottom-0 sm:px-6 px-2 pb-8 w-full left-1/2 -translate-x-1/2 z-3 bg-white/60 borderBlack shadow-xl backdrop-blur-[0.5rem] rounded-t-2xl dark:bg-gray-950/60 dark:border-white/40 !border-b-0 sm:w-[min(100%,36rem)] sm:right-[5.5rem] overflow-hidden"
         variants={slideVariants}
         initial="hidden"
         animate={chatActive ? "visible" : "hidden"}

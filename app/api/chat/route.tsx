@@ -307,7 +307,7 @@ export async function POST(req: Request, res: Response) {
         if (error.name === "AbortError") {
           return NextResponse.json(
             {
-              message: "response, cancelled, aborted successfully",
+              message: "response cancelled, aborted successfully",
               abortError: true,
             },
             { status: 500 }
