@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useRef } from "react";
 
 type ChatActiveContextType = {
   chatActive: boolean;
   setChatActive: React.Dispatch<React.SetStateAction<boolean>>;
   chatExpanded: boolean;
   setChatExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  textAreaRef: React.RefObject<HTMLTextAreaElement>;
 };
 
 type ChatActiveProviderProps = {
@@ -20,6 +21,7 @@ export default function ChatActiveContextProvider({
 }: ChatActiveProviderProps) {
   const [chatActive, setChatActive] = useState<boolean>(false);
   const [chatExpanded, setChatExpanded] = useState<boolean>(true);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <ChatActiveContext.Provider
@@ -28,6 +30,7 @@ export default function ChatActiveContextProvider({
         setChatActive,
         chatExpanded,
         setChatExpanded,
+        textAreaRef,
       }}
     >
       {children}

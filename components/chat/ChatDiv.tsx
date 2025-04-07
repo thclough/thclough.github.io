@@ -14,7 +14,6 @@ import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import { useActiveSectionContext } from "@/context/ActiveSectionContext";
 
 import { suggestedQs } from "@/lib/chatData";
-import type { SectionName } from "@/lib/types";
 
 import ClearChatButton from "./ClearChatBtn";
 import ExpandButton from "./ExpandButton";
@@ -92,7 +91,7 @@ export default function ChatDiv() {
       !isAtBottom &&
       chatExpanded && (
         <button
-          className="absolute text-sm right-1 bottom-24 sm:bottom-20 h-[2rem] w-[2rem] rounded-full bg-white bg-opacity-40 backdrop-blur-[0.5rem] border border-black/40 shadow-2xl focus:scale-110 hover:scale-110 active:scale-105 transition-all flex items-center justify-center dark:bg-gray-950 dark:border-white"
+          className="absolute text-sm right-1 bottom-36 sm:bottom-28 h-[2rem] w-[2rem] rounded-full bg-white bg-opacity-40 backdrop-blur-[0.5rem] border border-black/40 shadow-2xl focus:scale-110 hover:scale-110 active:scale-105 transition-all flex items-center justify-center dark:bg-gray-950 dark:border-white"
           onClick={() => scrollToBottom()}
         >
           <HiDownload />
@@ -103,11 +102,11 @@ export default function ChatDiv() {
 
   return (
     <StickToBottom
-      className="relative max-h-[calc(100vh-9.75rem)] w-full flex flex-col items-end justify-end"
+      className="relative max-h-[calc(100vh-10.75rem)] w-full flex flex-col items-end justify-end"
       resize="smooth"
       initial="smooth"
     >
-      <StickToBottom.Content className="flex flex-col">
+      <StickToBottom.Content className="flex flex-col sm:px-4 px-2">
         <motion.div
           className="flex flex-col gap-4"
           initial={{ height: "0" }}
@@ -159,7 +158,7 @@ export default function ChatDiv() {
 
       <ScrollToBottom />
 
-      <div className="max-h-[calc(100vh-10rem)] w-full">
+      <div className="max-h-[calc(100vh-10.75rem)] w-full sm:px-4 px-2">
         <div className="w-full flex items-center justify-between py-4 smp:py-2">
           <ClearChatButton abortFunction={handleAbortDec([])} status={status} />
           <ExpandButton className="text-2xl" />

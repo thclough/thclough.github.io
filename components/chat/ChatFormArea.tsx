@@ -1,5 +1,6 @@
 "use client";
 
+import { useChatContext } from "@/context/ChatActiveContext";
 import React, { useRef, useEffect } from "react";
 
 export default function ChatFormArea({
@@ -15,15 +16,14 @@ export default function ChatFormArea({
   ) => void;
   status: "submitted" | "streaming" | "ready" | "error";
 }) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { textAreaRef } = useChatContext();
 
-  // Function to adjust height
   const adjustHeight = () => {
-    if (textareaRef.current) {
+    if (textAreaRef.current) {
       // Reset height to auto to get the correct scrollHeight
-      textareaRef.current.style.height = "auto";
+      textAreaRef.current.style.height = "auto";
       // Set height to match content
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
   };
 
@@ -40,7 +40,7 @@ export default function ChatFormArea({
 
   return (
     <textarea
-      ref={textareaRef}
+      ref={textAreaRef}
       className="p-2 w-full overflow-y-auto max-h-[15rem] resize-none rounded-lg border borderBlack focus:border-black focus:outline-none transition-all dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 dark:text-gray-950 dark:outline-none"
       // name="prompt"
       placeholder={`Chat with /taɪɡ/, my digital assistant`}

@@ -4,8 +4,8 @@ import ReactMarkdown from "react-markdown";
 
 export default function ChatMessage({ message }: { message: UIMessage }) {
   const className = {
-    user: "self-end bg-[#dbd7fb]/60 px-2 py-2 rounded-lg dark:bg-[#676394]/60 ml-10 text-sm sm:text-base",
-    assistant: "items-left bg-gradient-to-r rounded-lg text-sm sm:text-base",
+    user: "self-end bg-[#dbd7fb]/60 px-2 py-2 rounded-lg dark:bg-[#676394]/60 ml-10",
+    assistant: "items-left bg-gradient-to-r rounded-lg",
     data: "",
     system: "",
   }[message.role];

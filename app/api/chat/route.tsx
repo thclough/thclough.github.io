@@ -49,6 +49,8 @@ async function generateHtmlEvidence({
 
   const htmlContent = await getHtmlContent();
 
+  // console.log(htmlContent);
+
   try {
     const { object } = await generateObject({
       model,
@@ -292,10 +294,10 @@ export async function POST(req: Request, res: Response) {
         sectionSourceObject,
       });
 
-      // console.log(systemString);
+      console.log(systemString);
 
       const result = streamText({
-        model: initialModel,
+        model: groq("llama-3.3-70b-versatile"),
         system: TEMPLATE + "\n" + systemString,
         abortSignal: signal,
         messages,
