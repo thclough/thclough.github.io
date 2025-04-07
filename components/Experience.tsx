@@ -1,7 +1,7 @@
 "use client";
 
-import { experiencesData } from "@/lib/data";
-import React from "react";
+import { experiencesData } from "@/lib/clientData";
+import React, { useEffect } from "react";
 import "react-vertical-timeline-component/style.min.css";
 import {
   VerticalTimeline,
@@ -12,14 +12,18 @@ import { useSectionInView } from "@/lib/hooks";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function Experience() {
-  const ref = useSectionInView("Experience");
+  const ref = useSectionInView("Experience", 0.5);
 
   const { theme } = useTheme();
 
   return (
-    <section id="experience" ref={ref} className="scroll-mt-28 mb-28 sm:mb-40">
+    <section
+      id="experience"
+      ref={ref}
+      className="relative scroll-mt-28 mb-28 sm:mb-40"
+    >
       <SectionHeading>My Experience</SectionHeading>
-      <VerticalTimeline lineColor="">
+      <VerticalTimeline lineColor="" animate={false}>
         {experiencesData.map((item, index) => (
           <React.Fragment key={index}>
             <VerticalTimelineElement

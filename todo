@@ -1,0 +1,18 @@
+// system prompt at end for personality
+
+- sometimes messages do not delete when aborted (after return, mid streaming, can't get success because not streaming)
+
+when canceling requests
+
+- ways to get rid of 500s
+
+  - make your own fetch
+
+- something causing min width at 500
+
+- github workflows
+
+// LEARNT
+
+// describing the structure destroys everything
+use multiple steps with not too many parameters

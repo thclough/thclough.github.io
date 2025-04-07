@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useScroll, useTransform } from "framer-motion";
-import { projectsData } from "@/lib/data";
+import { projectsData } from "@/lib/clientData";
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";

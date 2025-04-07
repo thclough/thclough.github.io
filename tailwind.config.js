@@ -12,6 +12,11 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      // This breakpoint is to stop theme button from overlapping chat window in smaller sizes
+      // a little bit larger than sm
+      screens: {
+        smp: "750px",
+      },
     },
   },
   plugins: [],

@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import SectionHeading from "./SectionHeading";
-import { projectsData } from "@/lib/data";
+import { projectsData } from "@/lib/clientData";
 import Project from "./Project";
 import { useSectionInView } from "@/lib/hooks";
 

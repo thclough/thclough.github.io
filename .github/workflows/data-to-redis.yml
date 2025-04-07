@@ -1,0 +1,61 @@
+name: Process PDF and Store in Redis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/TigheCloughCVPublic.pdf"
+      - "scripts/data-to-redis.ts"
+
+jobs:
+  process-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Install Node.js dependencies
+        run: |
+          npm ci
+          npm install -g \
+            ts-node \
+            typescript \s
+            @types/node
+          npm install \
+            pdf-parse \
+            redis \
+            @types/pdf-parse \
+            dotenv
+
+      - name: Process PDF
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+
+        run: |
+          npx ts-node scripts/data-to-redis.ts
+
+      - name: Verify storage
+        run: |
+          echo "PDF content preview:"
+          redis-cli -h localhost get "pdf:CV" | head -c 100
+          echo ""
