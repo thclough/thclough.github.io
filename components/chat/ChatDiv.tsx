@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useChatContext } from "@/context/ChatActiveContext";
 
 import { useChat } from "@ai-sdk/react";
@@ -48,6 +48,22 @@ export default function ChatDiv() {
       }
     },
   });
+
+  // Message persistence
+  useEffect(() => {
+    const storedChat = localStorage.getItem("taigChatHistory");
+    if (storedChat) {
+      setMessages(JSON.parse(storedChat));
+    }
+  }, [setMessages]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem("taigChatHistory", JSON.stringify(messages));
+    } else {
+      localStorage.removeItem("taigChatHistory");
+    }
+  }, [messages]);
 
   const controllerReqId = useRef<string | null>(null);
 
