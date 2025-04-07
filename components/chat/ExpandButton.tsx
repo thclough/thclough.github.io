@@ -20,12 +20,11 @@ export default function ExpandButton({ className }: ExpandTabProps) {
 
     // Maintain focus on textarea
     if (textAreaRef.current && document.activeElement === textAreaRef.current) {
-      console.log("Hello there");
       setChatExpanded(!chatExpanded);
       // Restore focus asynchronously to ensure it persists
       setTimeout(() => {
         textAreaRef.current?.focus();
-      }, 100);
+      }, 50);
     } else {
       setChatExpanded(!chatExpanded);
     }

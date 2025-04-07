@@ -116,7 +116,7 @@ export default function ChatDiv() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           {messages.length == 0 ? (
-            <div className="flex flex-col items-center justify-center w-full gap-2">
+            <div className="flex flex-col items-center justify-center w-full gap-2 pb-1">
               <div className="text-center">
                 Ask my assistant, /taɪɡ/, anything about my professional or
                 educational experiences...
@@ -161,12 +161,12 @@ export default function ChatDiv() {
       <div className="max-h-[calc(100vh-10.75rem)] w-full sm:px-4 px-2">
         <div className="w-full flex items-center justify-between py-4 smp:py-2">
           <ClearChatButton abortFunction={handleAbortDec([])} status={status} />
-          <ExpandButton className="text-2xl" />
+          <ExpandButton className="text-[2rem]" />
           <button
             onClick={() => {
               setChatActive(false);
             }}
-            className="text-xl"
+            className="text-2xl"
           >
             <IoMdClose />
           </button>
