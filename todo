@@ -1,28 +1,16 @@
-// have taig header only shows when there are no messages
-
-// if you activate the input, message box should come up (only id no messages and Tighe thing)
-
-// generate object if received from specific source take into account active section
-
-// ai
-
 // system prompt at end for personality
+
+- sometimes messages do not delete when aborted (after return, mid streaming, can't get success because not streaming)
 
 when canceling requests
 
-- first send request to server to cancel its requests
-- why not use await and fetch to 'api/chat' with something in body?
-- there is a parameter mismatch
-
 - ways to get rid of 500s
-- make your own fetch
 
-- something causing min height at 500
+  - make your own fetch
+
+- something causing min width at 500
 
 - github workflows
-- unfocusing from keyboard
-
-
 
 // LEARNT
 

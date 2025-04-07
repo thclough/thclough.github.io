@@ -78,7 +78,7 @@ export default function ChatDiv() {
         }),
       });
       if (res.ok) {
-        setMessages(keepMessages);
+        setMessages(keepMessages); // delete up to the last user message
         stop();
       } else {
         toast.error("Could not cancel message");
@@ -190,7 +190,12 @@ export default function ChatDiv() {
 
         <ChatForm
           handleSubmit={handleSubmit}
-          handleAbort={handleAbortDec(messages.slice(0, -1))}
+          handleAbort={handleAbortDec(
+            messages.slice(
+              0,
+              messages.findLastIndex((message) => message.role === "user")
+            )
+          )}
           getChatOptions={getChatOptions}
           handleInputChange={handleInputChange}
           status={status}

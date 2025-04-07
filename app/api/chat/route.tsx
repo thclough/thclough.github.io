@@ -109,8 +109,11 @@ export async function POST(req: Request, res: Response) {
         messages,
       });
 
+      // have to delete req id here i think
+
       return result.toDataStreamResponse();
     } catch (error) {
+      console.log("HELLO", error);
       if (error instanceof Error) {
         if (error.name === "AbortError") {
           return NextResponse.json(
