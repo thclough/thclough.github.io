@@ -41,11 +41,21 @@ export default function ChatDiv() {
       setChatErrorStatus(false);
     },
     onError: (error) => {
-      const parsed = JSON.parse(error.message);
-      if (!parsed.abortError) {
-        toast.error(parsed.error);
-        setChatErrorStatus(true);
-      }
+      toast.error(error.message);
+      // clear messages s
+      // can change this to a rety
+      setMessages(messages.slice(0, -1));
+    },
+    // clean up unnecessary abort controller
+    onFinish: async () => {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reqId: controllerReqId.current,
+          action: "clearAbort",
+        }),
+      });
     },
   });
 
@@ -78,7 +88,7 @@ export default function ChatDiv() {
         }),
       });
       if (res.ok) {
-        setMessages(keepMessages); // delete up to the last user message
+        setMessages(keepMessages);
         stop();
       } else {
         toast.error("Could not cancel message");

@@ -20,7 +20,7 @@ async function fetchAndProcessHtml() {
     // 2. Parse and sanitize
     const sanitizedHtml = parseHtml(response.data);
 
-    // 3. Store in Redis (24h TTL)
+    // 3. Store in Redis
     await redis.set("html:root", sanitizedHtml);
     console.log("✅ HTML processed and stored");
   } catch (error) {

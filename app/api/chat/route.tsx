@@ -109,11 +109,8 @@ export async function POST(req: Request, res: Response) {
         messages,
       });
 
-      // have to delete req id here i think
-
       return result.toDataStreamResponse();
     } catch (error) {
-      console.log("HELLO", error);
       if (error instanceof Error) {
         if (error.name === "AbortError") {
           return NextResponse.json(
@@ -147,7 +144,7 @@ export async function POST(req: Request, res: Response) {
       // abort possibly made it before the message
     } else {
       const result = await new Promise((resolve) => {
-        // set a grace period for corresponding message to cancel to arrive
+        // set a grace period for corresponding message-to-cancel to arrive
         const earlyTimer = setTimeout(() => {
           earlyReqIds.delete(reqId);
           resolve(
@@ -156,7 +153,7 @@ export async function POST(req: Request, res: Response) {
               { status: 500 }
             )
           );
-        }, 10000);
+        }, 5000);
 
         earlyReqIds.set(reqId, {
           saved: () => {
@@ -173,6 +170,24 @@ export async function POST(req: Request, res: Response) {
       });
       // just resolve to a next response
       return result;
+    }
+  }
+
+  if (body.action === "clearAbort") {
+    const { reqId }: { reqId: string } = body;
+    try {
+      if (abortControllers.has(reqId)) {
+        abortControllers.delete(reqId);
+      }
+      return NextResponse.json(
+        { message: "Cleared ReqId or already cleared" },
+        { status: 200 }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Something went wrong on the server", abortError: false },
+        { status: 500 }
+      );
     }
   }
 }

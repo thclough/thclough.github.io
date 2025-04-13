@@ -6,11 +6,17 @@ when canceling requests
 
 - ways to get rid of 500s
 
-  - make your own fetch
+  - make your own fetch (possibly)
 
-- something causing min width at 500
+- something causing min width at 500 (can't squeeze past this)
 
 - github workflows
+
+- retry for true error (onError)
+
+- message memo
+
+- rate handling
 
 // LEARNT
 
