@@ -1,24 +1,22 @@
-import { LanguageModelV1, streamText, UIMessage } from "ai";
+import { streamText, UIMessage } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { TEMPLATE } from "@/lib/chatData";
-import { generateText, generateObject } from "ai";
 import { getCvText, getHtmlContent } from "@/lib/utils/api-utils";
 import { links } from "@/lib/clientData";
-import { z } from "zod";
 import { NextResponse } from "next/server";
-import { HtmlContext } from "next/dist/shared/lib/html-context";
+import { Ratelimit } from "@upstash/ratelimit";
 
 var sectionNames = links.map((link) => link.name) as string[];
 sectionNames = [...sectionNames, "null"];
 
-const sectionSourceSchema = z.object({
-  mainSectionWhereInfoComesFrom: z
-    .enum(sectionNames as [string, ...string[]])
-    .optional()
-    .describe(
-      "Main section where information comes from in the website (if there is one)"
-    ),
-});
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+
+// Create Rate limit
+// const ratelimit = new Ratelimit({
+//   redis: kv,
+//   limiter: Ratelimit.fixedWindow(5, "30s"),
+// });
 
 function createSystemAddition({
   cvText,
