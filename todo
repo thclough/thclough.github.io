@@ -15,8 +15,10 @@ when canceling requests
 - retry for true error (onError)
 
 - message memo
+- rate limiting
+- simpler model
 
-- rate handling
+- make chat button glow
 
 // LEARNT
 

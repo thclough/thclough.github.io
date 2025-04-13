@@ -13,12 +13,11 @@ import { HiDownload } from "react-icons/hi";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import { useActiveSectionContext } from "@/context/ActiveSectionContext";
 
-import { suggestedQs } from "@/lib/chatData";
-
 import ClearChatButton from "./ClearChatBtn";
 import ExpandButton from "./ExpandButton";
 import ChatForm from "./ChatForm";
-import ChatMessage from "./ChatMessage";
+import Messages from "./Messages";
+import SuggestedQs from "./SuggestedQs";
 
 export default function ChatDiv() {
   const { chatExpanded, setChatActive } = useChatContext();
@@ -42,7 +41,7 @@ export default function ChatDiv() {
     },
     onError: (error) => {
       toast.error(error.message);
-      // clear messages s
+      // clear message that led to an error
       // can change this to a rety
       setMessages(messages.slice(0, -1));
     },
@@ -142,32 +141,11 @@ export default function ChatDiv() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           {messages.length == 0 ? (
-            <div className="flex flex-col items-center justify-center w-full gap-2 pb-1">
-              <div className="text-center">
-                Ask my assistant, /taɪɡ/, anything about my professional or
-                educational experiences...
-              </div>
-              <div className="flex flex-auto justify-center gap-2">
-                {suggestedQs.map((Q) => (
-                  <button
-                    key={Q}
-                    className="flex-1 px-[.2rem] py-[.2rem] rounded-lg borderBlack dark:border-white/40 text-sm hover:bg-gray-300/40 dark:hover:bg-gray-950/40"
-                    onClick={() =>
-                      append({ role: "user", content: Q }, getChatOptions())
-                    }
-                  >
-                    {Q}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <SuggestedQs append={append} chatOptionsFunc={getChatOptions} />
           ) : (
             <>
-              {messages.map((message) => (
-                <div key={message.id} className="self-end">
-                  <ChatMessage message={message}></ChatMessage>
-                </div>
-              ))}
+              <Messages messages={messages} />
+
               {(status === "submitted" || status === "streaming") && (
                 <div>
                   {status === "submitted" && (

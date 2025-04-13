@@ -103,7 +103,7 @@ export async function POST(req: Request, res: Response) {
       const systemString = createSystemAddition({ cvText, htmlContent });
 
       const result = streamText({
-        model: groq("llama-3.3-70b-versatile"),
+        model: groq("llama-3.1-8b-instant"),
         system: TEMPLATE + "\n" + systemString,
         abortSignal: signal,
         messages,
