@@ -1,6 +1,7 @@
 import { UIMessage } from "ai";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { MemoizedMarkdown } from "./MemoizedMarkdown";
 
 export default function ChatMessage({ message }: { message: UIMessage }) {
   const className = {
@@ -21,7 +22,7 @@ export default function ChatMessage({ message }: { message: UIMessage }) {
         </span>
 
         <div className={className}>
-          <ReactMarkdown>{message.content}</ReactMarkdown>
+          <MemoizedMarkdown id={message.id} content={message.content} />
         </div>
       </div>
     );

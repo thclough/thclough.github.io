@@ -36,6 +36,7 @@ export default function ChatDiv() {
     input,
   } = useChat({
     id: "1",
+    experimental_throttle: 50,
     onResponse: (res) => {
       setChatErrorStatus(false);
     },
