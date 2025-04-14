@@ -16,7 +16,7 @@ async function fetchAndProcessHtml() {
   const TARGET_URL = process.env.TARGET_URL;
   if (!TARGET_URL) throw new Error("TARGET_URL not set");
 
-  const redis = createClient({ url: process.env.REDIS_URL });
+  const redis = createClient({ url: REDIS_URL });
 
   try {
     await redis.connect();
@@ -32,6 +32,7 @@ async function fetchAndProcessHtml() {
 
     // 3. Store in Redis
     await redis.set("html:root", sanitizedHtml);
+
     console.log("✅ HTML processed and stored");
   } catch (error) {
     console.error(

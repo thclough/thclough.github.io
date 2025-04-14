@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install redis node-html-parser @types/node
+          npm install --save-dev redis node-html-parser @types/node
 
       - name: Process and store HTML
         env:

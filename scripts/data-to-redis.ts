@@ -14,7 +14,7 @@ if (!REDIS_URL) throw new Error("REDIS_URL is missing");
 
 // Redis client setup
 const redisClient: RedisClientType = createClient({
-  url: process.env.REDIS_URL,
+  url: REDIS_URL,
 });
 
 // Specify the single PDF file to process
