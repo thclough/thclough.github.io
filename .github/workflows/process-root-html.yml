@@ -31,6 +31,7 @@ jobs:
           npm install --save-dev redis node-html-parser @types/node
 
       - name: Process and store HTML
+        environment: production
         env:
           TARGET_URL: ${{ vars.PRODUCTION_URL }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
