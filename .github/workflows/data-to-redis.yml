@@ -10,6 +10,7 @@ on:
 jobs:
   process-pdf:
     runs-on: ubuntu-latest
+    environment: production
     timeout-minutes: 10
 
     services:
@@ -40,7 +41,6 @@ jobs:
           npm install --save-dev ts-node typescript @types/node pdf-parse redis @types/pdf-parse dotenv
 
       - name: Process PDF
-        environment: production
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
 
