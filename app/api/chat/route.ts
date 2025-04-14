@@ -1,9 +1,10 @@
 import { streamText, UIMessage } from "ai";
+import kv from "@vercel/kv";
 import { groq } from "@ai-sdk/groq";
 import { TEMPLATE } from "@/lib/chatData";
 import { getCvText, getHtmlContent } from "@/lib/utils/api-utils";
 import { links } from "@/lib/clientData";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
 
 var sectionNames = links.map((link) => link.name) as string[];
@@ -13,10 +14,10 @@ sectionNames = [...sectionNames, "null"];
 export const maxDuration = 30;
 
 // Create Rate limit
-// const ratelimit = new Ratelimit({
-//   redis: kv,
-//   limiter: Ratelimit.fixedWindow(5, "30s"),
-// });
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.fixedWindow(100, "24h"),
+});
 
 function createSystemAddition({
   cvText,
@@ -70,7 +71,18 @@ function createSystemAddition({
 const abortControllers = new Map();
 const earlyReqIds = new Map();
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: NextRequest, res: Response) {
+  // check rate limit first
+  const ip = req.ip ?? "ip";
+  const { success, remaining } = await ratelimit.limit(ip);
+
+  if (!success) {
+    return NextResponse.json(
+      { message: "Rate limited!", abortError: false },
+      { status: 429 }
+    );
+  }
+
   const body = await req.json();
 
   if (earlyReqIds.has(body.reqId)) {
