@@ -40,6 +40,7 @@ jobs:
           npm install --save-dev ts-node typescript @types/node pdf-parse redis @types/pdf-parse dotenv
 
       - name: Process PDF
+        environment: production
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
 
