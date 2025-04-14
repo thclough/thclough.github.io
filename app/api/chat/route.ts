@@ -1,24 +1,22 @@
-import { LanguageModelV1, streamText, UIMessage } from "ai";
+import { streamText, UIMessage } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { TEMPLATE } from "@/lib/chatData";
-import { generateText, generateObject } from "ai";
 import { getCvText, getHtmlContent } from "@/lib/utils/api-utils";
 import { links } from "@/lib/clientData";
-import { z } from "zod";
 import { NextResponse } from "next/server";
-import { HtmlContext } from "next/dist/shared/lib/html-context";
+import { Ratelimit } from "@upstash/ratelimit";
 
 var sectionNames = links.map((link) => link.name) as string[];
 sectionNames = [...sectionNames, "null"];
 
-const sectionSourceSchema = z.object({
-  mainSectionWhereInfoComesFrom: z
-    .enum(sectionNames as [string, ...string[]])
-    .optional()
-    .describe(
-      "Main section where information comes from in the website (if there is one)"
-    ),
-});
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+
+// Create Rate limit
+// const ratelimit = new Ratelimit({
+//   redis: kv,
+//   limiter: Ratelimit.fixedWindow(5, "30s"),
+// });
 
 function createSystemAddition({
   cvText,
@@ -103,17 +101,14 @@ export async function POST(req: Request, res: Response) {
       const systemString = createSystemAddition({ cvText, htmlContent });
 
       const result = streamText({
-        model: groq("llama-3.3-70b-versatile"),
+        model: groq("llama-3.1-8b-instant"),
         system: TEMPLATE + "\n" + systemString,
         abortSignal: signal,
         messages,
       });
 
-      // have to delete req id here i think
-
       return result.toDataStreamResponse();
     } catch (error) {
-      console.log("HELLO", error);
       if (error instanceof Error) {
         if (error.name === "AbortError") {
           return NextResponse.json(
@@ -147,7 +142,7 @@ export async function POST(req: Request, res: Response) {
       // abort possibly made it before the message
     } else {
       const result = await new Promise((resolve) => {
-        // set a grace period for corresponding message to cancel to arrive
+        // set a grace period for corresponding message-to-cancel to arrive
         const earlyTimer = setTimeout(() => {
           earlyReqIds.delete(reqId);
           resolve(
@@ -156,7 +151,7 @@ export async function POST(req: Request, res: Response) {
               { status: 500 }
             )
           );
-        }, 10000);
+        }, 5000);
 
         earlyReqIds.set(reqId, {
           saved: () => {
@@ -173,6 +168,24 @@ export async function POST(req: Request, res: Response) {
       });
       // just resolve to a next response
       return result;
+    }
+  }
+
+  if (body.action === "clearAbort") {
+    const { reqId }: { reqId: string } = body;
+    try {
+      if (abortControllers.has(reqId)) {
+        abortControllers.delete(reqId);
+      }
+      return NextResponse.json(
+        { message: "Cleared ReqId or already cleared" },
+        { status: 200 }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Something went wrong on the server", abortError: false },
+        { status: 500 }
+      );
     }
   }
 }

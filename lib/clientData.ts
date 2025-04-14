@@ -53,7 +53,7 @@ export const experiencesData = [
     title: "Continuing Education",
     location: "Remote",
     description:
-      "I have taken a little more than a year to intensely study machine learning, math, and full-stack development. I am also taking care of some family matters.",
+      "I have taken a little more than a year to intensely study machine learning, math, and full-stack development.",
     icon: React.createElement(LuBrainCircuit),
     date: "2024 - present",
   },

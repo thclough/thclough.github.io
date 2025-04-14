@@ -1,18 +1,17 @@
 // system prompt at end for personality
 
-- sometimes messages do not delete when aborted (after return, mid streaming, can't get success because not streaming)
-
 when canceling requests
 
 - ways to get rid of 500s
 
-  - make your own fetch
+  - make your own fetch (possibly)
 
-- something causing min width at 500
+- something causing min width at 500 (can't squeeze past this)
 
 - github workflows
 
-// LEARNT
+- retry for true error (onError)
 
-// describing the structure destroys everything
-use multiple steps with not too many parameters
+- rate limiting
+
+- make chat button glow, or some other way to draw attention to it (them)ß
