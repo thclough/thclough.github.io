@@ -9,8 +9,6 @@ async function fetchAndProcessHtml() {
     require("dotenv").config({ path: path.join(__dirname, "../.env.local") });
   }
 
-  console.log(Object.keys(process.env));
-
   // Validate env vars
   const REDIS_URL = process.env.REDIS_URL;
   if (!REDIS_URL) throw new Error("REDIS_URL is missing");
