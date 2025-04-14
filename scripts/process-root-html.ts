@@ -5,9 +5,11 @@ import path from "path";
 
 async function fetchAndProcessHtml() {
   // Load environment variables
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production" && !process.env.GITHUB_ACTIONS) {
     require("dotenv").config({ path: path.join(__dirname, "../.env.local") });
   }
+
+  console.log(Object.keys(process.env));
 
   // Validate env vars
   const REDIS_URL = process.env.REDIS_URL;
