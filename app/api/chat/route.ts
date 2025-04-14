@@ -72,15 +72,17 @@ const abortControllers = new Map();
 const earlyReqIds = new Map();
 
 export async function POST(req: NextRequest, res: Response) {
-  // check rate limit first
-  const ip = req.ip ?? "ip";
-  const { success, remaining } = await ratelimit.limit(ip);
+  // rate limit in production (could shift this to middleware)
+  if (process.env.NODE_ENV === "production") {
+    const ip = req.ip ?? "ip";
+    const { success, remaining } = await ratelimit.limit(ip);
 
-  if (!success) {
-    return NextResponse.json(
-      { message: "Rate limited!", abortError: false },
-      { status: 429 }
-    );
+    if (!success) {
+      return NextResponse.json(
+        { message: "Rate limited!", abortError: false },
+        { status: 429 }
+      );
+    }
   }
 
   const body = await req.json();

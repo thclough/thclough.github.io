@@ -8,10 +8,6 @@ when canceling requests
 
 - something causing min width at 500 (can't squeeze past this)
 
-- github workflows
-
 - retry for true error (onError)
-
-- rate limiting
 
 - make chat button glow, or some other way to draw attention to it (them)ß

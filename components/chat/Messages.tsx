@@ -6,9 +6,9 @@ export default function Messages({ messages }: { messages: UIMessage[] }) {
   return (
     <>
       {messages.map((message) => (
-        <div key={message.id} className="self-end">
+        <React.Fragment key={message.id}>
           <ChatMessage message={message}></ChatMessage>
-        </div>
+        </React.Fragment>
       ))}
     </>
   );
