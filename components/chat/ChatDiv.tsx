@@ -41,10 +41,21 @@ export default function ChatDiv() {
       setChatErrorStatus(false);
     },
     onError: (error) => {
-      toast.error(error.message);
-      // clear message that led to an error
-      // can change this to a retry option by setting true error, not just delete message
-      setMessages(messages.slice(0, -1));
+      // some errors are not parsable
+      try {
+        const parsed = JSON.parse(error.message);
+        console.log(parsed);
+        if (!parsed.abortError) {
+          toast.error(parsed.message);
+          setChatErrorStatus(true);
+          setMessages(messages.slice(0, -1));
+        }
+      } catch (err) {
+        toast.error(error.message);
+        // clear message that led to an error
+        // can change this to a retry option by setting true error, not just delete message
+        setMessages(messages.slice(0, -1));
+      }
     },
     // clean up unnecessary abort controller
     onFinish: async () => {
