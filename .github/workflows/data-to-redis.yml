@@ -32,20 +32,12 @@ jobs:
         run: |
           npm install
           sudo apt-get update
-          sudo apt-get install -y poppler-utils
+          sudo apt-get install -y poppler-utils redis-tools
 
       - name: Install Node.js dependencies
         run: |
           npm ci
-          npm install -g \
-            ts-node \
-            typescript \s
-            @types/node
-          npm install \
-            pdf-parse \
-            redis \
-            @types/pdf-parse \
-            dotenv
+          npm install --save-dev ts-node typescript @types/node pdf-parse redis @types/pdf-parse dotenv
 
       - name: Process PDF
         env:
