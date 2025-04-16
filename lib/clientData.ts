@@ -4,6 +4,7 @@ import { LuBrainCircuit } from "react-icons/lu";
 import { LuGraduationCap } from "react-icons/lu";
 import portfolioImg from "@/public/portfoliowebsite.png";
 import ispytickersImg from "@/public/ispytickers.png";
+import whmlahImg from "@/public/whmlah.png";
 
 export const links = [
   {
@@ -63,10 +64,18 @@ export const projectsData = [
   {
     title: "Portfolio Website (you are here)",
     description:
-      "I learned Next.js, Tailwind, and Framer motion through building this portfolio website.",
-    tags: ["React", "Next.js", "Typescript", "Tailwind", "Framer"],
+      "I learned Next.js, Tailwind, Framer Motion, and the Vercel AI SDK through building this portfolio website.",
+    tags: ["React", "Next.js", "Typescript", "Tailwind", "Framer", "Groq"],
     imageUrl: portfolioImg,
     href: "https://www.tigheclough.com",
+  },
+  {
+    title: "We Have ML at Home",
+    description:
+      "Where I write ML algos from scratch, highest level of abstraction is numpy, test models with synthetic data sets.",
+    tags: ["Python", "numpy"],
+    imageUrl: whmlahImg,
+    href: "https://github.com/thclough/we_have_ml_at_home",
   },
   {
     title: "I Spy Tickers",

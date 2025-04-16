@@ -9,8 +9,8 @@ export default function Footer() {
       </small>
       <p className="text-xs">
         <span>About this website:</span> built with React & Next.js (App Router
-        & Server Actions), TypeScript, Tailwind CSS, Framer Motion, React Email
-        & Resend - Vercel hosting.
+        & Server Actions), TypeScript, Tailwind CSS, Framer Motion, Vercel AI
+        SDK, React Email & Resend - Vercel hosting.
       </p>
     </footer>
   );
