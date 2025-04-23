@@ -8,7 +8,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChat } from "@ai-sdk/react";
 
-type ExpandTabProps = {
+type ClearChatButtonProps = {
   className?: string;
   abortFunction: () => Promise<void>;
   status: string;
@@ -18,7 +18,7 @@ export default function ClearChatButton({
   className,
   abortFunction,
   status,
-}: ExpandTabProps) {
+}: ClearChatButtonProps) {
   const { chatActive } = useChatContext();
 
   const { messages, setMessages } = useChat({ id: "1" });

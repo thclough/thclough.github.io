@@ -5,11 +5,11 @@ import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
 
 import React, { useCallback, useRef } from "react";
 
-type ExpandTabProps = {
+type ExpandButtonProps = {
   className?: string;
 };
 
-export default function ExpandButton({ className }: ExpandTabProps) {
+export default function ExpandButton({ className }: ExpandButtonProps) {
   const { chatExpanded, setChatExpanded, textAreaRef } = useChatContext();
   const buttonRef = useRef<HTMLButtonElement>(null);
 
