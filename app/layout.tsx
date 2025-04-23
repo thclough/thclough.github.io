@@ -9,8 +9,6 @@ import ThemeContextProvider from "@/context/ThemeContext";
 import ChatActiveContextProvider from "@/context/ChatActiveContext";
 import ChatWindow from "@/components/chat/ChatWindow";
 
-import ExpandTab from "@/components/chat/ExpandTab";
-import ChatAdBtn from "@/components/chat/ShowChatBtn";
 import ShowChatBtnLarge from "@/components/chat/ShowChatBtnLarge";
 import ShowChatBtnSmall from "@/components/chat/ShowChatBtnSmall";
 
