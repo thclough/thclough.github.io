@@ -40,7 +40,7 @@ export default function ShowChatBtn({ className, children }: ShowChatBtnProps) {
             filter: shouldGlow
               ? [
                   "drop-shadow(0 0 0 rgba(255, 255, 255, 0))",
-                  `drop-shadow(0 0 15px ${
+                  `drop-shadow(0 0 30px ${
                     theme === "dark"
                       ? "rgba(255, 255, 255, 0.7)"
                       : "rgba(0, 0, 0, 0.5)"
