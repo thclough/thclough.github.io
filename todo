@@ -9,5 +9,3 @@ when canceling requests
 - something causing min width at 500 (can't squeeze past this)
 
 - retry for true error (onError)
-
-- make chat button glow, or some other way to draw attention to it (them)ß

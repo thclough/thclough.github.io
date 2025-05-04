@@ -4,6 +4,7 @@ import { LuBrainCircuit } from "react-icons/lu";
 import { LuGraduationCap } from "react-icons/lu";
 import portfolioImg from "@/public/portfoliowebsite.png";
 import ispytickersImg from "@/public/ispytickers.png";
+import whmlahImg from "@/public/whmlah.png";
 
 export const links = [
   {
@@ -63,16 +64,32 @@ export const projectsData = [
   {
     title: "Portfolio Website (you are here)",
     description:
-      "I learned Next.js, Tailwind, and Framer motion through building this portfolio website.",
-    tags: ["React", "Next.js", "Typescript", "Tailwind", "Framer"],
+      "I learned Next.js, Tailwind, Framer Motion, and the Vercel AI SDK through building this portfolio website.",
+    tags: [
+      "React",
+      "Next.js",
+      "Typescript",
+      "Tailwind",
+      "Framer",
+      "Groq",
+      "Redis",
+    ],
     imageUrl: portfolioImg,
     href: "https://www.tigheclough.com",
   },
   {
+    title: "We Have ML at Home",
+    description:
+      "Where I write ML algos from scratch, highest level of abstraction is NumPy, test models with synthetic data sets.",
+    tags: ["Python", "NumPy"],
+    imageUrl: whmlahImg,
+    href: "https://github.com/thclough/we_have_ml_at_home",
+  },
+  {
     title: "I Spy Tickers",
     description:
-      "Scraped 30,000+ financial articles. Built a bidirectional LSTM with custom layers to identify where public companies are mentioned in text. Achieved F1 of .818.",
-    tags: ["Python", "Selenium", "Tensorflow/Keras"],
+      "Scraped 30,000+ financial articles. Built custom biLSTM to identify where public companies are mentioned in text. Achieved F1 of .818, accuracy .996.",
+    tags: ["Python", "Selenium", "TensorFlow"],
     imageUrl: ispytickersImg,
     href: "https://github.com/thclough/i-spy-tickers",
   },
@@ -80,7 +97,7 @@ export const projectsData = [
 
 export const skillsData = [
   "Python",
-  "Tensorflow",
+  "TensorFlow",
   "PyTorch",
   "LangChain",
   "JavaScript",
