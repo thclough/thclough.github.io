@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import portrait from "@/public/portrait.jpg";
-// import welcomeAudio from "@/public/welcome.mp3";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsArrowRight, BsLinkedin } from "react-icons/bs";
@@ -92,9 +91,9 @@ export default function Intro() {
             )}
           </button>
         </div>
-        I enjoy building <span className="italic">AI apps</span>. I specialize
-        in <span className="underline">Machine Learning</span> but also employ{" "}
-        <span className="underline">full-stack</span> to bring{" "}
+        I enjoy building <span className="italic">AI projects</span>. I
+        specialize in <span className="underline">Machine Learning</span> but am
+        working to use<span className="underline">full-stack</span> to bring{" "}
         <span className="italic">AI-powered user experiences</span> to life.
       </motion.h1>
 
