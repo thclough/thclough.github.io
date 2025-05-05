@@ -34,7 +34,11 @@ export default function About() {
         leveraging what I&apos;ve learned to build valuable projects.
       </p>
       <br />
-      <p>W</p>
+      <p>
+        I travel to take breaks. My recent adventures include barreling down the
+        California coast in a Smart car and riding around Bali on a moped with a
+        Hindu preacher. Pictures coming soon...
+      </p>
     </motion.section>
   );
 }
