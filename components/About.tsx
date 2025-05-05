@@ -33,7 +33,8 @@ export default function About() {
         , a language I have been studying for many years. I&apos;m currently
         leveraging what I&apos;ve learned to build valuable projects.
       </p>
-      <p></p>
+      <br />
+      <p>W</p>
     </motion.section>
   );
 }
