@@ -35,9 +35,9 @@ export default function About() {
       </p>
       <br />
       <p>
-        I travel to take breaks. My recent adventures have included barreling
-        down the California coast in a Smart car and riding around Bali on a
-        moped with a Hindu preacher. Pictures coming soon...
+        I travel to take breaks. My recent adventures include barreling down the
+        California coast in a Smart car and riding around Bali on a moped with a
+        Hindu preacher. Pictures coming soon...
       </p>
     </motion.section>
   );
