@@ -91,10 +91,10 @@ export default function Intro() {
             )}
           </button>
         </div>
-        I enjoy building <span className="italic">AI apps</span>. I specialize
-        in <span className="underline">Machine Learning</span> but also employ{" "}
-        <span className="underline">full-stack</span> to bring{" "}
-        <span className="italic">AI-powered user experiences</span> to life.
+        I enjoy building <span className="italic">AI apps</span>. I am exploring{" "}
+        <span className="underline">Machine Learning</span> and{" "}
+        <span className="underline">full-stack</span> <br />
+        to bring <span className="italic">AI-powered solutions</span> to life.
       </motion.h1>
 
       <motion.div
