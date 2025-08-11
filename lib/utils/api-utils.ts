@@ -2,6 +2,7 @@ import { createClient } from "redis";
 import { parse } from "node-html-parser";
 import { RedisClientType } from "@redis/client";
 
+// set here to maintain scope, check if activated or note
 let redis: RedisClientType | null = null;
 
 async function initRedis() {
